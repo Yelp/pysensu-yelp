@@ -1,0 +1,38 @@
+actionid=tox
+msg=packaging
+cmdargs=['/usr/bin/python', local('/nail/home/jrm/pg/pysensu-yelp/setup.py'), 'sdist', '--formats=zip', '--dist-dir', local('/nail/home/jrm/pg/pysensu-yelp/.tox/dist')]
+env=None
+running sdist
+running egg_info
+writing pysensu_yelp.egg-info/PKG-INFO
+writing top-level names to pysensu_yelp.egg-info/top_level.txt
+writing dependency_links to pysensu_yelp.egg-info/dependency_links.txt
+reading manifest file 'pysensu_yelp.egg-info/SOURCES.txt'
+writing manifest file 'pysensu_yelp.egg-info/SOURCES.txt'
+warning: sdist: standard file not found: should have one of README, README.txt
+creating pysensu-yelp-0.1.0
+creating pysensu-yelp-0.1.0/pysensu_yelp.egg-info
+making hard links in pysensu-yelp-0.1.0...
+hard linking setup.py -> pysensu-yelp-0.1.0
+hard linking pysensu_yelp.egg-info/PKG-INFO -> pysensu-yelp-0.1.0/pysensu_yelp.egg-info
+hard linking pysensu_yelp.egg-info/SOURCES.txt -> pysensu-yelp-0.1.0/pysensu_yelp.egg-info
+hard linking pysensu_yelp.egg-info/dependency_links.txt -> pysensu-yelp-0.1.0/pysensu_yelp.egg-info
+hard linking pysensu_yelp.egg-info/top_level.txt -> pysensu-yelp-0.1.0/pysensu_yelp.egg-info
+Writing pysensu-yelp-0.1.0/setup.cfg
+creating '.tox/dist/pysensu-yelp-0.1.0.zip' and adding 'pysensu-yelp-0.1.0' to it
+adding 'pysensu-yelp-0.1.0/setup.py'
+adding 'pysensu-yelp-0.1.0/PKG-INFO'
+adding 'pysensu-yelp-0.1.0/setup.cfg'
+adding 'pysensu-yelp-0.1.0/pysensu_yelp.egg-info/SOURCES.txt'
+adding 'pysensu-yelp-0.1.0/pysensu_yelp.egg-info/dependency_links.txt'
+adding 'pysensu-yelp-0.1.0/pysensu_yelp.egg-info/top_level.txt'
+adding 'pysensu-yelp-0.1.0/pysensu_yelp.egg-info/PKG-INFO'
+creating '.tox/dist/pysensu-yelp-0.1.0.zip' and adding 'pysensu-yelp-0.1.0' to it
+adding 'pysensu-yelp-0.1.0/setup.py'
+adding 'pysensu-yelp-0.1.0/PKG-INFO'
+adding 'pysensu-yelp-0.1.0/setup.cfg'
+adding 'pysensu-yelp-0.1.0/pysensu_yelp.egg-info/SOURCES.txt'
+adding 'pysensu-yelp-0.1.0/pysensu_yelp.egg-info/dependency_links.txt'
+adding 'pysensu-yelp-0.1.0/pysensu_yelp.egg-info/top_level.txt'
+adding 'pysensu-yelp-0.1.0/pysensu_yelp.egg-info/PKG-INFO'
+removing 'pysensu-yelp-0.1.0' (and everything under it)
