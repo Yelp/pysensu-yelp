@@ -1,4 +1,0 @@
-[console_scripts]
-py.test = pytest:main
-py.test-2.6 = pytest:main
-
