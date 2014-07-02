@@ -59,7 +59,7 @@ class TestPySensuYelp:
         with mock.patch('socket.socket', return_value=magic_skt) as skt_patch:
             pysensu_yelp.send_event(self.test_name, self.test_runbook,
                                     self.test_status, self.test_output,
-                                    team=self.test_team, page=self.test_page, tip=self.test_tip,
+                                    self.test_team, page=self.test_page, tip=self.test_tip,
                                     check_every=self.test_check_every,
                                     realert_every=self.test_realert_every,
                                     alert_after=self.test_alert_after,
@@ -69,26 +69,13 @@ class TestPySensuYelp:
             magic_skt.sendall.assert_called_once_with(self.event_hash + '\n')
             magic_skt.close.assert_called_once()
 
-    def test_send_event_bad_status(self):
-        magic_skt = mock.MagicMock()
-        with mock.patch('socket.socket', return_value=magic_skt) as skt_patch:
-            with pytest.raises(ValueError):
-                pysensu_yelp.send_event(self.test_name, self.test_runbook,
-                                        91913591, self.test_output,
-                                        team=self.test_team, page=self.test_page, tip=self.test_tip,
-                                        check_every=self.test_check_every,
-                                        realert_every=self.test_realert_every,
-                                        alert_after=self.test_alert_after,
-                                        irc_channels=self.test_irc_channels)
-            skt_patch.assert_not_called()
-
     def test_send_event_no_runbook(self):
         magic_skt = mock.MagicMock()
         with mock.patch('socket.socket', return_value=magic_skt) as skt_patch:
             with pytest.raises(ValueError):
                 pysensu_yelp.send_event(self.test_name, '',
                                         self.test_status, self.test_output,
-                                        team=self.test_team, page=self.test_page, tip=self.test_tip,
+                                        self.test_team, page=self.test_page, tip=self.test_tip,
                                         check_every=self.test_check_every,
                                         realert_every=self.test_realert_every,
                                         alert_after=self.test_alert_after,
@@ -100,7 +87,7 @@ class TestPySensuYelp:
             pysensu_yelp.send_event_from_check(self.check_dict, self.test_status, self.test_output)
             send_patch.assert_called_once_with(self.test_name, self.test_runbook,
                                                self.test_status, self.test_output,
-                                               team=self.test_team, page=self.test_page,
+                                               self.test_team, page=self.test_page,
                                                tip=self.test_tip, check_every=self.test_check_every,
                                                realert_every=self.test_realert_every,
                                                alert_after=self.test_alert_after,
@@ -108,7 +95,7 @@ class TestPySensuYelp:
 
     def test_SensuEventEmitter(self):
         test_emitter = pysensu_yelp.SensuEventEmitter(self.test_name, self.test_runbook,
-                                                      team=self.test_team,
+                                                      self.test_team,
                                                       page=self.test_page,
                                                       tip=self.test_tip,
                                                       check_every=self.test_check_every,
@@ -119,7 +106,7 @@ class TestPySensuYelp:
             test_emitter.emit_event(self.test_status, self.test_output)
             send_patch.assert_called_once_with(self.test_name, self.test_runbook,
                                                self.test_status, self.test_output,
-                                               team=self.test_team, page=self.test_page,
+                                               self.test_team, page=self.test_page,
                                                tip=self.test_tip, check_every=self.test_check_every,
                                                realert_every=self.test_realert_every,
                                                alert_after=self.test_alert_after,

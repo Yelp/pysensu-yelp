@@ -45,16 +45,12 @@ def human_to_seconds(string):
             raise Exception(interval_exc)
     return seconds
 
-def send_event(name, runbook, status, output, team='operations', page=False, tip='',
+def send_event(name, runbook, status, output, team, page=False, tip='',
                check_every='5m', realert_every=1, alert_after='0s', irc_channels=None):
     """Send a new event with the given information. Requires a name, runbook, status code,
-    and event output, but the other keys are kwargs and have defaults.
-
-    Valid status codes are 0, 1, and 2. Any other code will raise a ValueError."""
-    if not name or not runbook:
-        raise ValueError("Name and runbook must be present")
-    if status not in range(3):
-        raise ValueError("Invalid status code: %i", status)
+    and event output, but the other keys are kwargs and have defaults."""
+    if not (name and runbook and team):
+        raise ValueError("Name, runbook, and team must be present")
     result_dict = {
         'name': name,
         'status': status,
@@ -84,15 +80,13 @@ def send_event_from_check(check, status, output):
 
     'check' must be a dict containing the following keys:
     name, runbook, team, page, tip, check_every, realert_every,
-    alert_after, irc_channels
-
-    Valid status codes are 0, 1, and 2. Any other code will raise a ValueError."""
+    alert_after, irc_channels"""
     send_event(
         check['name'],
         check['runbook'],
         status,
         output,
-        team=check['team'],
+        check['team'],
         page=check['page'],
         tip=check['tip'],
         check_every=check['check_every'],
@@ -104,11 +98,11 @@ def send_event_from_check(check, status, output):
 class SensuEventEmitter:
     """A small class to store redundant informations between events.
 
-    Requires a name and runbook for the event to emit, but the other keys
-    are kwargs and have defaults."""
+    Requires a name, runbook, and team for the event to emit, but the
+    other keys are kwargs and have defaults."""
 
-    def __init__(self, name, runbook,
-                 team='operations', page=False, tip='', check_every='5m', realert_every=1,
+    def __init__(self, name, runbook, team,
+                 page=False, tip='', check_every='5m', realert_every=1,
                  alert_after='0s', irc_channels=None):
         if not name or not runbook:
             raise ValueError("Name and runbook must be present")
@@ -123,15 +117,13 @@ class SensuEventEmitter:
         self.irc_channels = irc_channels
 
     def emit_event(self, status, output):
-        """Emit a new event with the given status code and output.
-
-        Valid status codes are 0, 1, and 2. Any other code will raise a ValueError."""
+        """Emit a new event with the given status code and output."""
         send_event(
             self.name,
             self.runbook,
             status,
             output,
-            team=self.team,
+            self.team,
             tip=self.tip,
             check_every=self.check_every,
             page=self.page,
