@@ -81,33 +81,3 @@ class TestPySensuYelp:
                                         alert_after=self.test_alert_after,
                                         irc_channels=self.test_irc_channels)
             skt_patch.assert_not_called()
-
-    def test_send_event_from_check(self):
-        with mock.patch('pysensu_yelp.send_event', return_value=True) as send_patch:
-            pysensu_yelp.send_event_from_check(self.check_dict, self.test_status, self.test_output)
-            send_patch.assert_called_once_with(self.test_name, self.test_runbook,
-                                               self.test_status, self.test_output,
-                                               self.test_team, page=self.test_page,
-                                               tip=self.test_tip, check_every=self.test_check_every,
-                                               realert_every=self.test_realert_every,
-                                               alert_after=self.test_alert_after,
-                                               irc_channels=self.test_irc_channels)
-
-    def test_SensuEventEmitter(self):
-        test_emitter = pysensu_yelp.SensuEventEmitter(self.test_name, self.test_runbook,
-                                                      self.test_team,
-                                                      page=self.test_page,
-                                                      tip=self.test_tip,
-                                                      check_every=self.test_check_every,
-                                                      realert_every=self.test_realert_every,
-                                                      alert_after=self.test_alert_after,
-                                                      irc_channels=self.test_irc_channels)
-        with mock.patch('pysensu_yelp.send_event', return_value=True) as send_patch:
-            test_emitter.emit_event(self.test_status, self.test_output)
-            send_patch.assert_called_once_with(self.test_name, self.test_runbook,
-                                               self.test_status, self.test_output,
-                                               self.test_team, page=self.test_page,
-                                               tip=self.test_tip, check_every=self.test_check_every,
-                                               realert_every=self.test_realert_every,
-                                               alert_after=self.test_alert_after,
-                                               irc_channels=self.test_irc_channels)
