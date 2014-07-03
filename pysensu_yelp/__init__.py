@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 
 import json
-import datetime
 import socket
-import sys
 import re
 from ordereddict import OrderedDict
 
@@ -45,7 +43,7 @@ def human_to_seconds(string):
             raise Exception(interval_exc)
     return seconds
 
-def send_event(name, runbook, status, output, team, page=False, tip='', notification_email='',
+def send_event(name, runbook, status, output, team, page=False, tip=None, notification_email=None,
                check_every='5m', realert_every=1, alert_after='0s', dependencies=[],
                irc_channels=None):
     """Send a new event with the given information. Requires a name, runbook, status code,
