@@ -1,8 +1,6 @@
 import pysensu_yelp
 import mock
-import contextlib
 import json
-import socket
 import pytest
 
 class TestPySensuYelp:
@@ -14,9 +12,11 @@ class TestPySensuYelp:
     test_team = 'no_doubt_in_my_mind'
     test_page = False
     test_tip = 'but_who_docks_the_docker'
+    test_notification_email = 'sensu_test@pley.moc'
     test_check_every = '1M'
     test_realert_every = 99
     test_alert_after = '1Y'
+    test_dependencies = ['a_5_year_old']
     test_irc_channels = ['#sensu_test']
 
 
@@ -28,25 +28,15 @@ class TestPySensuYelp:
         'team': test_team,
         'runbook': test_runbook,
         'tip': test_tip,
+        'notification_email': test_notification_email,
         'interval': pysensu_yelp.human_to_seconds(test_check_every),
         'page': test_page,
         'realert_every': test_realert_every,
         'alert_after': pysensu_yelp.human_to_seconds(test_alert_after),
+        'dependencies': test_dependencies,
         'irc_channels': test_irc_channels,
     }
     event_hash = json.dumps(event_dict)
-
-    check_dict = {
-        'name': test_name,
-        'runbook': test_runbook,
-        'team': test_team,
-        'page': test_page,
-        'tip': test_tip,
-        'check_every': test_check_every,
-        'realert_every': test_realert_every,
-        'alert_after': test_alert_after,
-        'irc_channels': test_irc_channels,
-    }
 
     def test_human_to_seconds(self):
         assert pysensu_yelp.human_to_seconds('1s') == 1
@@ -60,9 +50,11 @@ class TestPySensuYelp:
             pysensu_yelp.send_event(self.test_name, self.test_runbook,
                                     self.test_status, self.test_output,
                                     self.test_team, page=self.test_page, tip=self.test_tip,
+                                    notification_email=self.test_notification_email,
                                     check_every=self.test_check_every,
                                     realert_every=self.test_realert_every,
                                     alert_after=self.test_alert_after,
+                                    dependencies=self.test_dependencies,
                                     irc_channels=self.test_irc_channels)
             skt_patch.assert_called_once()
             magic_skt.connect.assert_called_once_with(pysensu_yelp.SENSU_ON_LOCALHOST)
@@ -76,8 +68,10 @@ class TestPySensuYelp:
                 pysensu_yelp.send_event(self.test_name, '',
                                         self.test_status, self.test_output,
                                         self.test_team, page=self.test_page, tip=self.test_tip,
+                                        notification_email=self.test_notification_email,
                                         check_every=self.test_check_every,
                                         realert_every=self.test_realert_every,
                                         alert_after=self.test_alert_after,
+                                        dependencies=self.test_dependencies,
                                         irc_channels=self.test_irc_channels)
             skt_patch.assert_not_called()

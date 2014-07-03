@@ -45,8 +45,9 @@ def human_to_seconds(string):
             raise Exception(interval_exc)
     return seconds
 
-def send_event(name, runbook, status, output, team, page=False, tip='',
-               check_every='5m', realert_every=1, alert_after='0s', irc_channels=None):
+def send_event(name, runbook, status, output, team, page=False, tip='', notification_email='',
+               check_every='5m', realert_every=1, alert_after='0s', dependencies=[],
+               irc_channels=None):
     """Send a new event with the given information. Requires a name, runbook, status code,
     and event output, but the other keys are kwargs and have defaults."""
     if not (name and runbook and team):
@@ -59,9 +60,11 @@ def send_event(name, runbook, status, output, team, page=False, tip='',
         'team': team,
         'runbook': runbook,
         'tip': tip,
+        'notification_email': notification_email,
         'interval': human_to_seconds(check_every),
         'page': page,
         'realert_every': int(realert_every),
+        'dependencies': dependencies,
         'alert_after': human_to_seconds(alert_after),
     }
     if irc_channels:
