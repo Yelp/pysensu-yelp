@@ -6,6 +6,17 @@ import re
 from ordereddict import OrderedDict
 
 SENSU_ON_LOCALHOST = ('localhost', 3030)
+
+# Status codes for sensu checks
+# Code using this module can write pysensu_yelp.Status.OK, etc
+# for easy status codes
+Status = type('Enum', (), {
+    'OK':       0,
+    'WARNING':  1,
+    'CRITICAL': 2,
+    'UNKNOWN':  3
+})
+
 # Copied from: http://thomassileo.com/blog/2013/03/31/how-to-convert-seconds-to-human-readable-interval-back-and-forth-with-python/
 interval_dict = OrderedDict([("Y", 365*86400),  # 1 year
                              ("M", 30*86400),   # 1 month
