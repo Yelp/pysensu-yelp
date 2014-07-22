@@ -59,8 +59,10 @@ def send_event(name, runbook, status, output, team, page=False, tip=None, notifi
                irc_channels=None):
     """Send a new event with the given information. Requires a name, runbook, status code,
     and event output, but the other keys are kwargs and have defaults."""
-    if not (name and runbook and team):
-        raise ValueError("Name, runbook, and team must be present")
+    if not (name and team):
+        raise ValueError("Name and team must be present")
+    if not runbook:
+        runbook = 'y/youneedarunbook'
     result_dict = {
         'name': name,
         'status': status,
