@@ -61,13 +61,13 @@ class TestPySensuYelp:
             magic_skt.sendall.assert_called_once_with(self.event_hash + '\n')
             magic_skt.close.assert_called_once()
 
-    def test_send_event_no_runbook(self):
+    def test_send_event_no_team(self):
         magic_skt = mock.MagicMock()
         with mock.patch('socket.socket', return_value=magic_skt) as skt_patch:
             with pytest.raises(ValueError):
-                pysensu_yelp.send_event(self.test_name, '',
+                pysensu_yelp.send_event(self.test_name, self.test_runbook,
                                         self.test_status, self.test_output,
-                                        self.test_team, page=self.test_page, tip=self.test_tip,
+                                        '', page=self.test_page, tip=self.test_tip,
                                         notification_email=self.test_notification_email,
                                         check_every=self.test_check_every,
                                         realert_every=self.test_realert_every,
