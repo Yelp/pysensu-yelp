@@ -45,17 +45,18 @@ def human_to_seconds(string):
         match = interval_regex.match(string)
         if match:
             value, unit = int(match.group("value")), match.group("unit")
-            if int(value) and unit in interval_dict:
+            if unit in interval_dict:
                 seconds += value * interval_dict[unit]
                 string = string[match.end():]
             else:
-                raise Exception(interval_exc)
+                raise Exception("'{0}' unit not present in {1}".format(
+                    unit, interval_dict.keys()))
         else:
             raise Exception(interval_exc)
     return seconds
 
 def send_event(name, runbook, status, output, team, page=False, tip=None, notification_email=None,
-               check_every='5m', realert_every=1, alert_after='', dependencies=[],
+               check_every='5m', realert_every=1, alert_after='0s', dependencies=[],
                irc_channels=None):
     """Send a new event with the given information. Requires a name, runbook, status code,
     and event output, but the other keys are kwargs and have defaults."""

@@ -43,6 +43,10 @@ class TestPySensuYelp:
         assert pysensu_yelp.human_to_seconds('1m1s') == 61
         assert pysensu_yelp.human_to_seconds('1M1m') == 2592060
         assert pysensu_yelp.human_to_seconds('1Y1M1W1D1h1m1s') == 34822861
+        assert pysensu_yelp.human_to_seconds('0s') == 0
+
+        pytest.raises(Exception, pysensu_yelp.human_to_seconds, ('ss'))
+        pytest.raises(Exception, pysensu_yelp.human_to_seconds, ('0q'))
 
     def test_send_event_valid_args(self):
         magic_skt = mock.MagicMock()
