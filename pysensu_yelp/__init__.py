@@ -55,7 +55,7 @@ def human_to_seconds(string):
     return seconds
 
 def send_event(name, runbook, status, output, team, page=False, tip=None, notification_email=None,
-               check_every='5m', realert_every=1, alert_after='0s', dependencies=[],
+               check_every='5m', realert_every=1, alert_after='', dependencies=[],
                irc_channels=None):
     """Send a new event with the given information. Requires a name, runbook, status code,
     and event output, but the other keys are kwargs and have defaults."""
