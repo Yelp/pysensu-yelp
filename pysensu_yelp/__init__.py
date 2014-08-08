@@ -57,7 +57,7 @@ def human_to_seconds(string):
 
 def send_event(name, runbook, status, output, team, page=False, tip=None, notification_email=None,
                check_every='5m', realert_every=1, alert_after='0s', dependencies=[],
-               irc_channels=None):
+               irc_channels=None, ticket=False, project=None):
     """Send a new event with the given information. Requires a name, runbook, status code,
     and event output, but the other keys are kwargs and have defaults."""
     if not (name and team):
@@ -78,6 +78,8 @@ def send_event(name, runbook, status, output, team, page=False, tip=None, notifi
         'realert_every': int(realert_every),
         'dependencies': dependencies,
         'alert_after': human_to_seconds(alert_after),
+        'ticket': ticket,
+        'project': project
     }
     if irc_channels:
         result_dict['irc_channels'] = irc_channels

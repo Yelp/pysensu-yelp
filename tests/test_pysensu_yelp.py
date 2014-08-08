@@ -18,6 +18,8 @@ class TestPySensuYelp:
     test_alert_after = '1Y'
     test_dependencies = ['a_5_year_old']
     test_irc_channels = ['#sensu_test']
+    test_ticket = True
+    test_project = 'TEST_SENSU'
 
 
     event_dict = {
@@ -32,10 +34,12 @@ class TestPySensuYelp:
         'interval': pysensu_yelp.human_to_seconds(test_check_every),
         'page': test_page,
         'realert_every': test_realert_every,
-        'alert_after': pysensu_yelp.human_to_seconds(test_alert_after),
         'dependencies': test_dependencies,
-        'irc_channels': test_irc_channels,
+        'alert_after': pysensu_yelp.human_to_seconds(test_alert_after),
+        'ticket': test_ticket,
+        'project': test_project,
     }
+    event_dict['irc_channels'] = test_irc_channels
     event_hash = json.dumps(event_dict)
 
     def test_human_to_seconds(self):
@@ -59,7 +63,9 @@ class TestPySensuYelp:
                                     realert_every=self.test_realert_every,
                                     alert_after=self.test_alert_after,
                                     dependencies=self.test_dependencies,
-                                    irc_channels=self.test_irc_channels)
+                                    irc_channels=self.test_irc_channels,
+                                    ticket=self.test_ticket,
+                                    project=self.test_project)
             skt_patch.assert_called_once()
             magic_skt.connect.assert_called_once_with(pysensu_yelp.SENSU_ON_LOCALHOST)
             magic_skt.sendall.assert_called_once_with(self.event_hash + '\n')
@@ -77,5 +83,7 @@ class TestPySensuYelp:
                                         realert_every=self.test_realert_every,
                                         alert_after=self.test_alert_after,
                                         dependencies=self.test_dependencies,
-                                        irc_channels=self.test_irc_channels)
+                                        irc_channels=self.test_irc_channels,
+                                        ticket=self.test_ticket,
+                                        project=self.test_project)
             skt_patch.assert_not_called()
