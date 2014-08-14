@@ -20,6 +20,7 @@ class TestPySensuYelp:
     test_irc_channels = ['#sensu_test']
     test_ticket = True
     test_project = 'TEST_SENSU'
+    test_source = 'source.test'
 
 
     event_dict = {
@@ -38,6 +39,7 @@ class TestPySensuYelp:
         'alert_after': pysensu_yelp.human_to_seconds(test_alert_after),
         'ticket': test_ticket,
         'project': test_project,
+        'source': test_source,
     }
     event_dict['irc_channels'] = test_irc_channels
     event_hash = json.dumps(event_dict)
@@ -65,7 +67,8 @@ class TestPySensuYelp:
                                     dependencies=self.test_dependencies,
                                     irc_channels=self.test_irc_channels,
                                     ticket=self.test_ticket,
-                                    project=self.test_project)
+                                    project=self.test_project,
+                                    source=self.test_source)
             skt_patch.assert_called_once()
             magic_skt.connect.assert_called_once_with(pysensu_yelp.SENSU_ON_LOCALHOST)
             magic_skt.sendall.assert_called_once_with(self.event_hash + '\n')
@@ -85,5 +88,6 @@ class TestPySensuYelp:
                                         dependencies=self.test_dependencies,
                                         irc_channels=self.test_irc_channels,
                                         ticket=self.test_ticket,
-                                        project=self.test_project)
+                                        project=self.test_project,
+                                        source=self.test_source)
             skt_patch.assert_not_called()
