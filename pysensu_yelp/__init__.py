@@ -63,7 +63,7 @@ def send_event(name, runbook, status, output, team, page=False, tip=None, notifi
     if not (name and team):
         raise ValueError("Name and team must be present")
     if not runbook:
-        runbook = 'y/youneedarunbook'
+        runbook = 'Please set a runbook!'
     result_dict = {
         'name': name,
         'status': status,
