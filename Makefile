@@ -1,7 +1,8 @@
 .PHONY: all docs test tests coverage clean
 
 docs:
-	true
+	mkdir -p docs/build/
+	cp -a .docs_redirect docs/buld/html
 
 test:
 	tox
