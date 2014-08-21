@@ -2,7 +2,7 @@
 
 docs:
 	mkdir -p docs/build/
-	cp -a .docs_redirect docs/buld/html
+	cp -a .docs_redirect docs/build/html
 
 test:
 	tox
