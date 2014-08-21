@@ -1,4 +1,4 @@
-== pysensu-yelp
+## pysensu-yelp
 
 pysensu-yelp is a python library designed for interacting with the
 cutom Yelp sensu-handlers. 
@@ -9,11 +9,11 @@ on arbitrary events that might happen in their code.
 Only a very specific type of situation calls for this kind of monitoring,
 it does not replace general active checks against webservers and stuff.
 
-=== Installation
+### Installation
 
 TODO
 
-=== Usage
+### Usage
 
 If you need to send an event, use `pysensu_yelp.send_event`:
 
@@ -30,18 +30,18 @@ result_dict = {
     'page': True,
     'notification_email': None,
     'irc_channels': None,
-    'alert_after': '6m',
-    'check_every': '2m',
+    'alert_after': '5m',
+    'check_every': '1m',
     'realert_every': -1
 }
 pysensu_yelp.send_event(**result_dict)
 ```
 
-## License
+### License
 
 Apache 2.
 
-## Contributing
+### Contributing
 
 Open an [issue](https://github.com/Yelp/pysensu-yelp/issues) or
 [fork](https://github.com/Yelp/pysensu-yelp/fork) and open a
