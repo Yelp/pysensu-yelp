@@ -11,6 +11,12 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+Functions
+=========
+
+.. automodule:: pysensu_yelp
+    :members:
+
 Indices and tables
 ==================
 
