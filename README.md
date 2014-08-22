@@ -37,6 +37,12 @@ result_dict = {
 pysensu_yelp.send_event(**result_dict)
 ```
 
+### More Docs!
+
+[![Documentation Status](https://readthedocs.org/projects/pysensu-yelp/badge/?version=latest)](https://readthedocs.org/projects/pysensu-yelp/?badge=latest)
+
+Full autogen docs are on [ReadTheDocs](http://pysensu-yelp.readthedocs.org/en/latest/).
+
 ### License
 
 Apache 2.
