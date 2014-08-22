@@ -1,0 +1,14 @@
+language: python
+# We use the built-in tox matrix capabilities instead of matrixing on different
+# python versions directly.
+python: 
+  - 2.7
+install:
+  - pip install tox --use-mirrors
+script:
+  - tox
+env:
+  - TOXENV=py26
+  - TOXENV=py27
+# OrderedDict doesn't work? Needs investigation
+#  - TOXENV=py34
