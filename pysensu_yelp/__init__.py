@@ -59,7 +59,55 @@ def send_event(name, runbook, status, output, team, page=False, tip=None, notifi
                check_every='5m', realert_every=1, alert_after='0s', dependencies=[],
                irc_channels=None, ticket=False, project=None, source=None):
     """Send a new event with the given information. Requires a name, runbook, status code,
-    and event output, but the other keys are kwargs and have defaults."""
+    and event output, but the other keys are kwargs and have defaults.
+    
+    :type name: str
+    :param name: Name of the check
+
+    :type runbook: str
+    :param runbook: The runbook associated with the check
+
+    :type status: int
+    :param status: Exist status code, 0,1,2,3. Must comply with the Nagios conventions.
+
+    :type team: str
+    :param team: Team responsible for this check
+
+    :type page: bool
+    :param page: Boolean on whether this alert is page-worhty. Activates handlers that send pages.
+
+    :type tip: str
+    :param tip: A short 1-line version of the runbook.
+
+    :type notification_email: str
+    :param notification_email: A string of email destinations. Unset will default to the "team" default.
+
+    :type check_every: str
+    :param check_every: Human readable time unit to let Sensu know how of then this event is fired. Defaults to "5m".
+
+    :type realert_every: int
+    :param realert_every: Integer value for filtering repeat occurences. A value of 2 would send every other alert. Defaults to 1.
+
+    :type alert_after: str
+    :param alert_after: A human readable time unit to suspend handlers until enough occurences have taken place. Only valid when check_every is accurate.
+
+    :type dependencies: array
+    :param dependencies: An array of strings representing checks that *this* check is dependent on.
+
+    :type irc_channels: array
+    :param irc_channels: An array of IRC channels to send the event notification to. Defaults to the team setting.
+
+    :type ticket: bool
+    :param ticket: A Boolean value to enable ticket creation. Defaults to false.
+
+    :type project: str
+    :param project: A string representing the JIRA project that the ticket should go under. Defaults to the team value.
+
+    :type source: str
+    :param source: Allows "masquerading" the source value of the event, otherwise comes from the fqdn of the host it runs on.
+
+
+    """
     if not (name and team):
         raise ValueError("Name and team must be present")
     if not runbook:
