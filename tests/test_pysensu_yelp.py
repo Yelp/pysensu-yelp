@@ -91,3 +91,22 @@ class TestPySensuYelp:
                                         project=self.test_project,
                                         source=self.test_source)
             skt_patch.assert_not_called()
+
+    def test_no_special_characters_in_name(self):
+        magic_skt = mock.MagicMock()
+        with mock.patch('socket.socket', return_value=magic_skt) as skt_patch:
+            for special_char in '!@#$%^&*() ;",<>=+[]':
+                test_name = self.test_name + special_char
+                with pytest.raises(ValueError):
+                    pysensu_yelp.send_event(test_name, self.test_runbook,
+                                            self.test_status, self.test_output,
+                                            self.test_team, page=self.test_page, tip=self.test_tip,
+                                            notification_email=self.test_notification_email,
+                                            check_every=self.test_check_every,
+                                            realert_every=self.test_realert_every,
+                                            alert_after=self.test_alert_after,
+                                            dependencies=self.test_dependencies,
+                                            irc_channels=self.test_irc_channels,
+                                            ticket=self.test_ticket,
+                                            project=self.test_project,
+                                            source=self.test_source)
