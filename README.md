@@ -34,7 +34,8 @@ result_dict = {
     'irc_channels': None,
     'alert_after': '5m',
     'check_every': '1m',
-    'realert_every': -1
+    'realert_every': -1,
+    'watchdog_timer': None
 }
 pysensu_yelp.send_event(**result_dict)
 ```
