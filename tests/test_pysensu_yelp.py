@@ -21,6 +21,7 @@ class TestPySensuYelp:
     test_ticket = True
     test_project = 'TEST_SENSU'
     test_source = 'source.test'
+    test_watchdog_timer = '30M'
 
 
     event_dict = {
@@ -40,6 +41,7 @@ class TestPySensuYelp:
         'ticket': test_ticket,
         'project': test_project,
         'source': test_source,
+        'watchdog_timer': pysensu_yelp.human_to_seconds(test_watchdog_timer),
     }
     event_dict['irc_channels'] = test_irc_channels
     event_hash = json.dumps(event_dict)
@@ -68,7 +70,8 @@ class TestPySensuYelp:
                                     irc_channels=self.test_irc_channels,
                                     ticket=self.test_ticket,
                                     project=self.test_project,
-                                    source=self.test_source)
+                                    source=self.test_source,
+                                    watchdog_timer=self.test_watchdog_timer)
             skt_patch.assert_called_once()
             magic_skt.connect.assert_called_once_with(pysensu_yelp.SENSU_ON_LOCALHOST)
             magic_skt.sendall.assert_called_once_with(self.event_hash + '\n')
@@ -89,7 +92,8 @@ class TestPySensuYelp:
                                         irc_channels=self.test_irc_channels,
                                         ticket=self.test_ticket,
                                         project=self.test_project,
-                                        source=self.test_source)
+                                        source=self.test_source,
+                                        watchdog_timer=self.test_watchdog_timer)
             skt_patch.assert_not_called()
 
     def test_no_special_characters_in_name(self):
@@ -109,4 +113,5 @@ class TestPySensuYelp:
                                             irc_channels=self.test_irc_channels,
                                             ticket=self.test_ticket,
                                             project=self.test_project,
-                                            source=self.test_source)
+                                            source=self.test_source,
+                                            watchdog_timer=self.test_watchdog_timer)
