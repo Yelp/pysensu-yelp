@@ -106,7 +106,7 @@ def send_event(name, runbook, status, output, team, page=False, tip=None, notifi
     :type source: str
     :param source: Allows "masquerading" the source value of the event, otherwise comes from the fqdn of the host it runs on.
 
-    :type watchdog_timer str
+    :type watchdog_timer: str
     :param watchdog_timer: A human readable time unit to be checked by Sensu Watchdog. Defaults to None.
 
 
