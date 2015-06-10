@@ -57,7 +57,7 @@ def human_to_seconds(string):
 
 def send_event(name, runbook, status, output, team, page=False, tip=None, notification_email=None,
                check_every='5m', realert_every=1, alert_after='0s', dependencies=[],
-               irc_channels=None, ticket=False, project=None, source=None, watchdog_timer=None):
+               irc_channels=None, ticket=False, project=None, source=None, ttl=None):
     """Send a new event with the given information. Requires a name, runbook, status code,
     and event output, but the other keys are kwargs and have defaults.
     
@@ -106,9 +106,11 @@ def send_event(name, runbook, status, output, team, page=False, tip=None, notifi
     :type source: str
     :param source: Allows "masquerading" the source value of the event, otherwise comes from the fqdn of the host it runs on.
 
-    :type watchdog_timer: str
-    :param watchdog_timer: A human readable time unit to be checked by Sensu Watchdog. Defaults to None.
-
+    :type ttl: str
+    :param ttl: A human readable time unit to set the check TTL.
+    If Sensu does not hear from the check after this time unit,
+    Sensu will spawn a new failing event! (aka check staleness)
+    Defaults to None.
 
     """
     if not (name and team):
@@ -134,7 +136,7 @@ def send_event(name, runbook, status, output, team, page=False, tip=None, notifi
         'ticket': ticket,
         'project': project,
         'source': source,
-        'watchdog_timer': human_to_seconds(watchdog_timer),
+        'ttl': human_to_seconds(ttl),
     }
     if irc_channels:
         result_dict['irc_channels'] = irc_channels
