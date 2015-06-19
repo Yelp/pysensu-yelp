@@ -35,7 +35,7 @@ result_dict = {
     'alert_after': '5m',
     'check_every': '1m',
     'realert_every': -1,
-    'watchdog_timer': None
+    'ttl': None
 }
 pysensu_yelp.send_event(**result_dict)
 ```
