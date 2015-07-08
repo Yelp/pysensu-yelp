@@ -4,10 +4,10 @@ from setuptools import setup, find_packages
 
 setup(
     name='pysensu-yelp',
-    version='0.2.0',
+    version='0.2.1',
     provides=['pysensu_yelp'],
     description='Emits Yelp-flavored Sensu events to a Sensu Client',
-    url='https://gitweb.yelpcorp.com/?p=pysensu-yelp.git',
+    url='https://github.com/Yelp/pysensu-yelp',
     author='Yelp Operations Team',
     author_email='operations@yelp.com',
     packages=find_packages(exclude=['tests']),
