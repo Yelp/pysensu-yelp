@@ -5,7 +5,6 @@ import socket
 import re
 from ordereddict import OrderedDict
 
-SENSU_ON_LOCALHOST = ('localhost', 3030)
 
 # Status codes for sensu checks
 # Code using this module can write pysensu_yelp.Status.OK, etc
@@ -17,7 +16,9 @@ Status = type('Enum', (), {
     'UNKNOWN':  3
 })
 
-# Copied from: http://thomassileo.com/blog/2013/03/31/how-to-convert-seconds-to-human-readable-interval-back-and-forth-with-python/
+
+# Copied from:
+# http://thomassileo.com/blog/2013/03/31/how-to-convert-seconds-to-human-readable-interval-back-and-forth-with-python/
 interval_dict = OrderedDict([("Y", 365*86400),  # 1 year
                              ("M", 30*86400),   # 1 month
                              ("W", 7*86400),    # 1 week
@@ -25,6 +26,7 @@ interval_dict = OrderedDict([("Y", 365*86400),  # 1 year
                              ("h", 3600),       # 1 hour
                              ("m", 60),         # 1 minute
                              ("s", 1)])         # 1 second
+
 
 def human_to_seconds(string):
     """Convert internal string like 1M, 1Y3M, 3W to seconds.
@@ -57,12 +59,29 @@ def human_to_seconds(string):
             raise Exception(interval_exc)
     return seconds
 
-def send_event(name, runbook, status, output, team, page=False, tip=None, notification_email=None,
-               check_every='5m', realert_every=1, alert_after='0s', dependencies=[],
-               irc_channels=None, ticket=False, project=None, source=None, ttl=None):
+
+def send_event(name,
+               runbook,
+               status,
+               output,
+               team,
+               page=False,
+               tip=None,
+               notification_email=None,
+               check_every='5m',
+               realert_every=1,
+               alert_after='0s',
+               dependencies=[],
+               irc_channels=None,
+               ticket=False,
+               project=None,
+               source=None,
+               ttl=None,
+               sensu_host='localhost',
+               sensu_port=3030):
     """Send a new event with the given information. Requires a name, runbook, status code,
     and event output, but the other keys are kwargs and have defaults.
-    
+
     :type name: str
     :param name: Name of the check
 
@@ -146,7 +165,7 @@ def send_event(name, runbook, status, output, team, page=False, tip=None, notifi
     json_hash = json.dumps(result_dict)
     sock = socket.socket()
     try:
-        sock.connect(SENSU_ON_LOCALHOST)
+        sock.connect(sensu_host, sensu_port)
         sock.sendall(json_hash + '\n')
     finally:
         sock.close()
