@@ -128,10 +128,7 @@ def send_event(name,
     :param source: Allows "masquerading" the source value of the event, otherwise comes from the fqdn of the host it runs on.
 
     :type ttl: str
-    :param ttl: A human readable time unit to set the check TTL.
-    If Sensu does not hear from the check after this time unit,
-    Sensu will spawn a new failing event! (aka check staleness)
-    Defaults to None.
+    :param ttl: A human readable time unit to set the check TTL. If Sensu does not hear from the check after this time unit, Sensu will spawn a new failing event! (aka check staleness) Defaults to None, meaning Sensu will only spawn events when send_event is called.
 
     """
     if not (name and team):
