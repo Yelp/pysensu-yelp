@@ -162,7 +162,7 @@ def send_event(name,
     json_hash = json.dumps(result_dict)
     sock = socket.socket()
     try:
-        sock.connect(sensu_host, sensu_port)
+        sock.connect((sensu_host, sensu_port))
         sock.sendall(json_hash + '\n')
     finally:
         sock.close()
