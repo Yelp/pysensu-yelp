@@ -3,8 +3,8 @@ import mock
 import json
 import pytest
 
-class TestPySensuYelp:
 
+class TestPySensuYelp:
     test_name = 'then_i_saw_her_face'
     test_runbook = 'now_im_a_believer'
     test_status = 0
@@ -22,7 +22,6 @@ class TestPySensuYelp:
     test_project = 'TEST_SENSU'
     test_source = 'source.test'
     test_ttl = '30M'
-
 
     event_dict = {
         'name': test_name,
@@ -73,8 +72,31 @@ class TestPySensuYelp:
                                     project=self.test_project,
                                     source=self.test_source,
                                     ttl=self.test_ttl)
-            skt_patch.assert_called_once()
-            magic_skt.connect.assert_called_once_with(pysensu_yelp.SENSU_ON_LOCALHOST)
+            assert skt_patch.call_count == 1
+            magic_skt.connect.assert_called_once_with(('localhost', 3030))
+            magic_skt.sendall.assert_called_once_with(self.event_hash + '\n')
+            magic_skt.close.assert_called_once()
+
+    def test_send_event_custom_sensu_host(self):
+        magic_skt = mock.MagicMock()
+        with mock.patch('socket.socket', return_value=magic_skt) as skt_patch:
+            pysensu_yelp.send_event(self.test_name, self.test_runbook,
+                                    self.test_status, self.test_output,
+                                    self.test_team, page=self.test_page, tip=self.test_tip,
+                                    notification_email=self.test_notification_email,
+                                    check_every=self.test_check_every,
+                                    realert_every=self.test_realert_every,
+                                    alert_after=self.test_alert_after,
+                                    dependencies=self.test_dependencies,
+                                    irc_channels=self.test_irc_channels,
+                                    ticket=self.test_ticket,
+                                    project=self.test_project,
+                                    source=self.test_source,
+                                    ttl=self.test_ttl,
+                                    sensu_host='testhost',
+                                    sensu_port=666)
+            assert skt_patch.call_count == 1
+            magic_skt.connect.assert_called_once_with(('testhost', 666))
             magic_skt.sendall.assert_called_once_with(self.event_hash + '\n')
             magic_skt.close.assert_called_once()
 
@@ -99,7 +121,7 @@ class TestPySensuYelp:
 
     def test_no_special_characters_in_name(self):
         magic_skt = mock.MagicMock()
-        with mock.patch('socket.socket', return_value=magic_skt) as skt_patch:
+        with mock.patch('socket.socket', return_value=magic_skt):
             for special_char in '!@#$%^&*() ;",<>=+[]':
                 test_name = self.test_name + special_char
                 with pytest.raises(ValueError):
