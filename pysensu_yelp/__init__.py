@@ -60,27 +60,30 @@ def human_to_seconds(string):
     return seconds
 
 
-def send_event(name,
-               runbook,
-               status,
-               output,
-               team,
-               page=False,
-               tip=None,
-               notification_email=None,
-               check_every='5m',
-               realert_every=1,
-               alert_after='0s',
-               dependencies=[],
-               irc_channels=None,
-               ticket=False,
-               project=None,
-               source=None,
-               ttl=None,
-               sensu_host='localhost',
-               sensu_port=3030):
-    """Send a new event with the given information. Requires a name, runbook, status code,
-    and event output, but the other keys are kwargs and have defaults.
+def send_event(
+    name,
+    runbook,
+    status,
+    output,
+    team,
+    page=False,
+    tip=None,
+    notification_email=None,
+    check_every='30s',
+    realert_every=-1,
+    alert_after='0s',
+    dependencies=[],
+    irc_channels=None,
+    ticket=False,
+    project=None,
+    source=None,
+    ttl=None,
+    sensu_host='localhost',
+    sensu_port=3030,
+):
+    """Send a new event with the given information. Requires a name, runbook,
+    status code, and event output, but the other keys are kwargs and have
+    defaults.
 
     :type name: str
     :param name: Name of the check
@@ -89,46 +92,63 @@ def send_event(name,
     :param runbook: The runbook associated with the check
 
     :type status: int
-    :param status: Exist status code, 0,1,2,3. Must comply with the Nagios conventions.
+    :param status: Exist status code, 0,1,2,3. Must comply with the Nagios
+    conventions.
 
     :type team: str
     :param team: Team responsible for this check
 
     :type page: bool
-    :param page: Boolean on whether this alert is page-worhty. Activates handlers that send pages.
+    :param page: Boolean on whether this alert is page-worhty. Activates
+    handlers that send pages.
 
     :type tip: str
     :param tip: A short 1-line version of the runbook.
 
     :type notification_email: str
-    :param notification_email: A string of email destinations. Unset will default to the "team" default.
+    :param notification_email: A string of email destinations. Unset will
+    default to the "team" default.
 
     :type check_every: str
-    :param check_every: Human readable time unit to let Sensu know how of then this event is fired. Defaults to "5m".
+    :param check_every: Human readable time unit to let Sensu know how of then
+    this event is fired. Defaults to "30s". If this parameter is not set
+    correctly, the math for `alert_after` will be incorrect.
 
     :type realert_every: int
-    :param realert_every: Integer value for filtering repeat occurences. A value of 2 would send every other alert. Defaults to 1.
+    :param realert_every: Integer value for filtering repeat occurences. A
+    value of 2 would send every other alert. Defaults to -1, which is a
+    special value representing exponential backoff. (alerts on event number
+    1,2,4,8, etc)
 
     :type alert_after: str
-    :param alert_after: A human readable time unit to suspend handlers until enough occurences have taken place. Only valid when check_every is accurate.
+    :param alert_after: A human readable time unit to suspend handlers until
+    enough occurences have taken place. Only valid when check_every is
+    accurate.
 
     :type dependencies: array
-    :param dependencies: An array of strings representing checks that *this* check is dependent on.
+    :param dependencies: An array of strings representing checks that *this*
+    check is dependent on.
 
     :type irc_channels: array
-    :param irc_channels: An array of IRC channels to send the event notification to. Defaults to the team setting.
+    :param irc_channels: An array of IRC channels to send the event
+    notification to. Defaults to the team setting.
 
     :type ticket: bool
     :param ticket: A Boolean value to enable ticket creation. Defaults to false.
 
     :type project: str
-    :param project: A string representing the JIRA project that the ticket should go under. Defaults to the team value.
+    :param project: A string representing the JIRA project that the ticket
+    should go under. Defaults to the team value.
 
     :type source: str
-    :param source: Allows "masquerading" the source value of the event, otherwise comes from the fqdn of the host it runs on.
+    :param source: Allows "masquerading" the source value of the event,
+    otherwise comes from the fqdn of the host it runs on.
 
     :type ttl: str
-    :param ttl: A human readable time unit to set the check TTL. If Sensu does not hear from the check after this time unit, Sensu will spawn a new failing event! (aka check staleness) Defaults to None, meaning Sensu will only spawn events when send_event is called.
+    :param ttl: A human readable time unit to set the check TTL. If Sensu does
+    not hear from the check after this time unit, Sensu will spawn a new
+    failing event! (aka check staleness) Defaults to None, meaning Sensu will
+    only spawn events when send_event is called.
 
     """
     if not (name and team):
