@@ -40,10 +40,10 @@ verify the health of something, and uses ``send_event`` to send a Sensu
 event based on the health of that something::
 
     import pysensu_yelp
-    
+
     def check_the_thing():
         return True
-    
+
     is_it_ok = check_the_thing()
     if is_it_ok is True:
         status=0
@@ -51,7 +51,7 @@ event based on the health of that something::
     else:
         status=2
         output="Critical: Everything is NOT fine"
-    
+
     pysensu_yelp.send_event(
         name="my_cool_check",
         output=output,
