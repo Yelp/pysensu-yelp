@@ -99,7 +99,7 @@ def send_event(
     :param team: Team responsible for this check
 
     :type page: bool
-    :param page: Boolean on whether this alert is page-worhty. Activates
+    :param page: Boolean on whether this alert is page-worthy. Activates
                  handlers that send pages.
 
     :type tip: str
@@ -116,14 +116,14 @@ def send_event(
                         incorrect.
 
     :type realert_every: int
-    :param realert_every: Integer value for filtering repeat occurences. A
+    :param realert_every: Integer value for filtering repeat occurrences. A
                           value of 2 would send every other alert. Defaults to -1,
                           which is a special value representing exponential backoff.
                           (alerts on event number 1,2,4,8, etc)
 
     :type alert_after: str
     :param alert_after: A human readable time unit to suspend handlers until
-                        enough occurences have taken place. Only valid when
+                        enough occurrences have taken place. Only valid when
                         check_every is accurate.
 
     :type dependencies: array
