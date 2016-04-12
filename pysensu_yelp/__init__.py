@@ -93,20 +93,23 @@ def send_event(
 
     :type status: int
     :param status: Exist status code, 0,1,2,3. Must comply with the Nagios
-                   conventions.
+                   conventions. See `the Sensu docs <https://sensuapp.org/docs/latest/checks#sensu-check-specification>`_
+                   for the exact specification.
 
     :type team: str
-    :param team: Team responsible for this check
+    :param team: Team responsible for this check. This team must already be defined
+                 server-side in the Sensu handler configuration.
 
     :type page: bool
     :param page: Boolean on whether this alert is page-worthy. Activates
                  handlers that send pages.
 
     :type tip: str
-    :param tip: A short 1-line version of the runbook.
+    :param tip: A short 1-line version of the runbook. Example:
+                "Set clip-jawed monodish to 6"
 
     :type notification_email: str
-    :param notification_email: A string of email destinations. Unset will
+    :param notification_email: A comma-separated string of email destinations. Unset will
                                default to the "team" default.
 
     :type check_every: str
@@ -122,7 +125,7 @@ def send_event(
                           (alerts on event number 1,2,4,8, etc)
 
     :type alert_after: str
-    :param alert_after: A human readable time unit to suspend handlers until
+    :param alert_after: A human readable time unit to suspend handler action until
                         enough occurrences have taken place. Only valid when
                         check_every is accurate.
 
@@ -144,12 +147,29 @@ def send_event(
     :type source: str
     :param source: Allows "masquerading" the source value of the event,
                    otherwise comes from the fqdn of the host it runs on.
+                   This is especially important to set on events that could
+                   potentially be created from multiple hosts. For example if
+                   ``send_event`` is called from three different hosts in a cluster,
+                   you wouldn't want three different events, you would only want
+                   one event that looked like it came from ``the_cluster``, so
+                   you would set ``source='the_cluster'``.
 
     :type ttl: str
     :param ttl: A human readable time unit to set the check TTL. If Sensu does
                 not hear from the check after this time unit, Sensu will spawn a
                 new failing event! (aka check staleness) Defaults to None,
                 meaning Sensu will only spawn events when send_event is called.
+
+    Note on TTL events and alert_after:
+    ``alert_after`` and ``check_every`` only really make sense on events that are created
+    periodically. Setting ``alert_after`` on checks that are not periodic is not advised
+    because the math will be incorrect. For example, if check was written that called
+    ``send_event`` on minute values that were prime, what should the ``check_every`` setting
+    be? No matter what it was, it would be wrong, and therefore ``alert_after`` would be incorrectly
+    calculated (as it is a function of the number of failing events seen multiplied by the ``check_every``
+    setting). If in doubt, set ``alert_after`` to ``0`` to ensure you never miss an alert
+    due to incorrect ``alert_after`` math on non-periodic events. (See also this
+    `Pull request <https://github.com/sensu/sensu/pull/1200>`_)
 
     """
     if not (name and team):
