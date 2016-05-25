@@ -10,5 +10,4 @@ script:
 env:
   - TOXENV=py26
   - TOXENV=py27
-# OrderedDict doesn't work? Needs investigation
-#  - TOXENV=py34
+  - TOXENV=py34

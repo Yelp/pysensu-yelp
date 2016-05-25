@@ -3,7 +3,10 @@
 import json
 import socket
 import re
-from ordereddict import OrderedDict
+try:
+    from collections import OrderedDict
+except ImportError:
+    from ordereddict import OrderedDict
 
 
 # Status codes for sensu checks
