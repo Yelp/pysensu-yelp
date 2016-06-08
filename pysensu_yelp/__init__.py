@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 
+import argparse
 import json
 import socket
+import subprocess
 import re
 try:
     from collections import OrderedDict
@@ -210,3 +212,27 @@ def send_event(
         sock.sendall(json_hash + '\n')
     finally:
         sock.close()
+
+def do_command_wrapper():
+    parser = argparse.ArgumentParser(description='Execute a nagios plugin and report the results to a local Sensu agent')
+    parser.add_argument('sensu_dict')
+    parser.add_argument('command', nargs=argparse.REMAINDER)
+    args = parser.parse_args()
+
+    sensu_dict = json.loads(args.sensu_dict)
+
+    p = subprocess.Popen(args.command,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT)
+    output, _ = p.communicate()
+    status = p.wait()
+
+    if status > 3:
+        status = 3
+
+    sensu_dict['status'] = status
+    sensu_dict['output'] = output[:1200]
+    send_event(**sensu_dict)
+
+if __name__ == '__main__':
+    do_command_wrapper()
