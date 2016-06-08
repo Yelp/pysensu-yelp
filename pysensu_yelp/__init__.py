@@ -213,6 +213,7 @@ def send_event(
     finally:
         sock.close()
 
+
 def do_command_wrapper():
     parser = argparse.ArgumentParser(description='Execute a nagios plugin and report the results to a local Sensu agent')
     parser.add_argument('sensu_dict')
@@ -222,8 +223,8 @@ def do_command_wrapper():
     sensu_dict = json.loads(args.sensu_dict)
 
     p = subprocess.Popen(args.command,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT)
+                         stdout=subprocess.PIPE,
+                         stderr=subprocess.STDOUT)
     output, _ = p.communicate()
     status = p.wait()
 
