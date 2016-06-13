@@ -5,11 +5,13 @@ import json
 import socket
 import subprocess
 import re
+import sys
 try:
     from collections import OrderedDict
 except ImportError:
     from ordereddict import OrderedDict
 
+KEEP_BYTES = 1200
 
 # Status codes for sensu checks
 # Code using this module can write pysensu_yelp.Status.OK, etc
@@ -20,7 +22,6 @@ Status = type('Enum', (), {
     'CRITICAL': 2,
     'UNKNOWN':  3
 })
-
 
 # Copied from:
 # http://thomassileo.com/blog/2013/03/31/how-to-convert-seconds-to-human-readable-interval-back-and-forth-with-python/
@@ -228,12 +229,14 @@ def do_command_wrapper():
     output, _ = p.communicate()
     status = p.wait()
 
-    if status > 3:
-        status = 3
+    if status > Status.WARNING:
+        status = Status.WARNING
 
     sensu_dict['status'] = status
-    sensu_dict['output'] = output[:1200]
+    sensu_dict['output'] = output[:KEEP_BYTES]
     send_event(**sensu_dict)
 
+    return 0
+
 if __name__ == '__main__':
-    do_command_wrapper()
+    sys.exit(do_command_wrapper())
