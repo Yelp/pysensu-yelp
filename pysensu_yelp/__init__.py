@@ -11,8 +11,6 @@ try:
 except ImportError:
     from ordereddict import OrderedDict
 
-KEEP_BYTES = 1200
-
 # Status codes for sensu checks
 # Code using this module can write pysensu_yelp.Status.OK, etc
 # for easy status codes
@@ -233,7 +231,7 @@ def do_command_wrapper():
         status = Status.WARNING
 
     sensu_dict['status'] = status
-    sensu_dict['output'] = output[:KEEP_BYTES]
+    sensu_dict['output'] = output
     send_event(**sensu_dict)
 
     return 0
