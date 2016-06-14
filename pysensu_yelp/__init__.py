@@ -1,13 +1,15 @@
 #!/usr/bin/env python
 
+import argparse
 import json
 import socket
+import subprocess
 import re
+import sys
 try:
     from collections import OrderedDict
 except ImportError:
     from ordereddict import OrderedDict
-
 
 # Status codes for sensu checks
 # Code using this module can write pysensu_yelp.Status.OK, etc
@@ -18,7 +20,6 @@ Status = type('Enum', (), {
     'CRITICAL': 2,
     'UNKNOWN':  3
 })
-
 
 # Copied from:
 # http://thomassileo.com/blog/2013/03/31/how-to-convert-seconds-to-human-readable-interval-back-and-forth-with-python/
@@ -210,3 +211,30 @@ def send_event(
         sock.sendall(json_hash + '\n')
     finally:
         sock.close()
+
+
+def do_command_wrapper():
+    parser = argparse.ArgumentParser(description='Execute a nagios plugin and report the results to a local Sensu agent')
+    parser.add_argument('sensu_dict')
+    parser.add_argument('command', nargs=argparse.REMAINDER)
+    args = parser.parse_args()
+
+    sensu_dict = json.loads(args.sensu_dict)
+
+    p = subprocess.Popen(args.command,
+                         stdout=subprocess.PIPE,
+                         stderr=subprocess.STDOUT)
+    output, _ = p.communicate()
+    status = p.wait()
+
+    if status > Status.WARNING:
+        status = Status.WARNING
+
+    sensu_dict['status'] = status
+    sensu_dict['output'] = output
+    send_event(**sensu_dict)
+
+    return 0
+
+if __name__ == '__main__':
+    sys.exit(do_command_wrapper())
