@@ -227,8 +227,8 @@ def do_command_wrapper():
     output, _ = p.communicate()
     status = p.wait()
 
-    if status > Status.WARNING:
-        status = Status.WARNING
+    if status > Status.UNKNOWN:
+        status = Status.UNKNOWN
 
     sensu_dict['status'] = status
     sensu_dict['output'] = output
