@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 
+import argparse
 import json
 import socket
+import subprocess
 import re
-from ordereddict import OrderedDict
+import sys
 
 """
 pysensu-yelp
@@ -113,6 +115,11 @@ A final invocation might look like this::
 
 """
 
+try:
+    from collections import OrderedDict
+except ImportError:
+    from ordereddict import OrderedDict
+
 # Status codes for sensu checks
 # Code using this module can write pysensu_yelp.Status.OK, etc
 # for easy status codes
@@ -122,7 +129,6 @@ Status = type('Enum', (), {
     'CRITICAL': 2,
     'UNKNOWN':  3
 })
-
 
 # Copied from:
 # http://thomassileo.com/blog/2013/03/31/how-to-convert-seconds-to-human-readable-interval-back-and-forth-with-python/
@@ -200,20 +206,23 @@ def send_event(
 
     :type status: int
     :param status: Exist status code, 0,1,2,3. Must comply with the Nagios
-                   conventions.
+                   conventions. See `the Sensu docs <https://sensuapp.org/docs/latest/checks#sensu-check-specification>`_
+                   for the exact specification.
 
     :type team: str
-    :param team: Team responsible for this check
+    :param team: Team responsible for this check. This team must already be defined
+                 server-side in the Sensu handler configuration.
 
     :type page: bool
-    :param page: Boolean on whether this alert is page-worhty. Activates
+    :param page: Boolean on whether this alert is page-worthy. Activates
                  handlers that send pages.
 
     :type tip: str
-    :param tip: A short 1-line version of the runbook.
+    :param tip: A short 1-line version of the runbook. Example:
+                "Set clip-jawed monodish to 6"
 
     :type notification_email: str
-    :param notification_email: A string of email destinations. Unset will
+    :param notification_email: A comma-separated string of email destinations. Unset will
                                default to the "team" default.
 
     :type check_every: str
@@ -223,14 +232,14 @@ def send_event(
                         incorrect.
 
     :type realert_every: int
-    :param realert_every: Integer value for filtering repeat occurences. A
+    :param realert_every: Integer value for filtering repeat occurrences. A
                           value of 2 would send every other alert. Defaults to -1,
                           which is a special value representing exponential backoff.
                           (alerts on event number 1,2,4,8, etc)
 
     :type alert_after: str
-    :param alert_after: A human readable time unit to suspend handlers until
-                        enough occurences have taken place. Only valid when
+    :param alert_after: A human readable time unit to suspend handler action until
+                        enough occurrences have taken place. Only valid when
                         check_every is accurate.
 
     :type dependencies: array
@@ -251,12 +260,29 @@ def send_event(
     :type source: str
     :param source: Allows "masquerading" the source value of the event,
                    otherwise comes from the fqdn of the host it runs on.
+                   This is especially important to set on events that could
+                   potentially be created from multiple hosts. For example if
+                   ``send_event`` is called from three different hosts in a cluster,
+                   you wouldn't want three different events, you would only want
+                   one event that looked like it came from ``the_cluster``, so
+                   you would set ``source='the_cluster'``.
 
     :type ttl: str
     :param ttl: A human readable time unit to set the check TTL. If Sensu does
                 not hear from the check after this time unit, Sensu will spawn a
                 new failing event! (aka check staleness) Defaults to None,
                 meaning Sensu will only spawn events when send_event is called.
+
+    Note on TTL events and alert_after:
+    ``alert_after`` and ``check_every`` only really make sense on events that are created
+    periodically. Setting ``alert_after`` on checks that are not periodic is not advised
+    because the math will be incorrect. For example, if check was written that called
+    ``send_event`` on minute values that were prime, what should the ``check_every`` setting
+    be? No matter what it was, it would be wrong, and therefore ``alert_after`` would be incorrectly
+    calculated (as it is a function of the number of failing events seen multiplied by the ``check_every``
+    setting). If in doubt, set ``alert_after`` to ``0`` to ensure you never miss an alert
+    due to incorrect ``alert_after`` math on non-periodic events. (See also this
+    `Pull request <https://github.com/sensu/sensu/pull/1200>`_)
 
     """
     if not (name and team):
@@ -294,3 +320,30 @@ def send_event(
         sock.sendall(json_hash + '\n')
     finally:
         sock.close()
+
+
+def do_command_wrapper():
+    parser = argparse.ArgumentParser(description='Execute a nagios plugin and report the results to a local Sensu agent')
+    parser.add_argument('sensu_dict')
+    parser.add_argument('command', nargs=argparse.REMAINDER)
+    args = parser.parse_args()
+
+    sensu_dict = json.loads(args.sensu_dict)
+
+    p = subprocess.Popen(args.command,
+                         stdout=subprocess.PIPE,
+                         stderr=subprocess.STDOUT)
+    output, _ = p.communicate()
+    status = p.wait()
+
+    if status > Status.WARNING:
+        status = Status.WARNING
+
+    sensu_dict['status'] = status
+    sensu_dict['output'] = output
+    send_event(**sensu_dict)
+
+    return 0
+
+if __name__ == '__main__':
+    sys.exit(do_command_wrapper())
