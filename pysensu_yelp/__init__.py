@@ -87,11 +87,9 @@ away.
 Using pysensu-yelp in a Docker Container
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Sending Sensu events from a docker container requires special consideration.
-The first thing to understand is that the Sensu client is *not* running inside
-your docker container, so out of the box pysensu-yelp will not be able to
-connect to the port. At Yelp we use the `yocalhost` ip, `169.254.255.254` to
-allow things in docker containers to utilize services on the host.
+At Yelp we use the `yocalhost` ip, `169.254.255.254` to allow things in docker
+containers to utilize services on the host. ``pysensu-yelp`` uses this yocalhost
+IP by default.
 
 Additionally, docker containers should be considered ephemeral and potentially
 launched from any number of hosts. This is potentially confusing to Sensu, because
@@ -110,7 +108,6 @@ A final invocation might look like this::
         runbook="http://pysensu-yelp.readthedocs.org",
         ttl="1h",
         source="my_cool_service",
-        sensu_host="169.254.255.254",
     )
 
 """
@@ -191,7 +188,7 @@ def send_event(
     project=None,
     source=None,
     ttl=None,
-    sensu_host='localhost',
+    sensu_host='169.254.255.254',
     sensu_port=3030,
 ):
     """Send a new event with the given information. Requires a name, runbook,
@@ -272,6 +269,10 @@ def send_event(
                 not hear from the check after this time unit, Sensu will spawn a
                 new failing event! (aka check staleness) Defaults to None,
                 meaning Sensu will only spawn events when send_event is called.
+
+    :type sensu_host: str
+    :param sensu_host: The IP or Name to connect to for sending the event.
+                       Defaults to the yocalhost IP.
 
     Note on TTL events and alert_after:
     ``alert_after`` and ``check_every`` only really make sense on events that are created
