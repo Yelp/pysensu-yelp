@@ -1,6 +1,6 @@
 ## pysensu-yelp
 
-[![Build Status](https://travis-ci.org/Yelp/pysensu-yelp.svg)](https://travis-ci.org/Yelp/pysensu-yelp)
+[![Build Status](https://travis-ci.org/Yelp/pysensu-yelp.svg?branch=master)](https://travis-ci.org/Yelp/pysensu-yelp)
 
 pysensu-yelp is a python library designed for interacting with the
 cutom Yelp sensu-handlers. 
@@ -10,6 +10,9 @@ on arbitrary events that might happen in their code.
 
 Only a very specific type of situation calls for this kind of monitoring,
 it does not replace general active checks against webservers and stuff.
+
+See the [docs](http://pysensu-yelp.readthedocs.org/en/latest/) for more
+information about the use-cases for this and examples on how to use it.
 
 ### Installation
 
@@ -58,4 +61,3 @@ Open an [issue](https://github.com/Yelp/pysensu-yelp/issues) or
 
 Please do not attempt to use `pysensu-yelp` without Yelp's `sensu_handlers`
 unless you intend to write your own custom handlers.
-

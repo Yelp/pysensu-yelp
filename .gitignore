@@ -2,3 +2,4 @@
 *.egg-info/
 tests/__pycache__
 docs/build
+.cache/

@@ -73,7 +73,7 @@ class TestPySensuYelp:
                                     source=self.test_source,
                                     ttl=self.test_ttl)
             assert skt_patch.call_count == 1
-            magic_skt.connect.assert_called_once_with(('localhost', 3030))
+            magic_skt.connect.assert_called_once_with(('169.254.255.254', 3030))
             magic_skt.sendall.assert_called_once_with(self.event_hash + '\n')
             magic_skt.close.assert_called_once()
 

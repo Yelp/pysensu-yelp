@@ -6,6 +6,112 @@ import socket
 import subprocess
 import re
 import sys
+
+"""
+pysensu-yelp
+============
+
+A library to send `Sensu <https://sensuapp.org/>`_ events from Python
+using `Yelp's Sensu-Handlers <https://github.com/Yelp/sensu_handlers>`_.
+
+What This is Used For
+^^^^^^^^^^^^^^^^^^^^^
+
+Sensu is a very flexible monitoring framework. Combined it with
+Yelp's ``sensu_handlers`` and you have the ability to create
+arbitrary alerts for teams with no configuration necessary on the
+Sensu server.
+
+This is commonly used in infrastructure code, but can also be used
+to instrument service-level code. For example, you might use this library
+to track the health periodic tasks. Or you might use it to send special
+alerts for rare exceptions that require manual intervention.
+
+**Note:** Sending Sensu events to the infrastructure is not "free".
+Care should be taken to ensure a script does not flood the monitoring
+infrastructure with lots of events to process. In practice humans are
+not responding to rapidly occurring events, sending anything more
+than about 1 event per minute is probably just wasting CPU resources
+on the monitoring infrastructure.
+
+Basic Example
+^^^^^^^^^^^^^
+
+Here is an example that uses an internal function, ``check_the_thing`` to
+verify the health of something, and uses ``send_event`` to send a Sensu
+event based on the health of that something::
+
+    import pysensu_yelp
+
+    def check_the_thing():
+        return True
+
+    is_it_ok = check_the_thing()
+    if is_it_ok is True:
+        status=0
+        output="Everything is fine"
+    else:
+        status=2
+        output="Critical: Everything is NOT fine"
+
+    pysensu_yelp.send_event(
+        name="my_cool_check",
+        output=output,
+        status=status,
+        team="my_team",
+        runbook="http://hellogiggles.hellogiggles.netdna-cdn.com/wp-content/uploads/2014/12/28/this-is-fine-meme.jpg",
+    )
+
+
+Staleness Alerts (TTL)
+^^^^^^^^^^^^^^^^^^^^^^
+
+Sometimes you want Sensu to alert you when something hasn't checked
+in and reported its status in a while. In Nagios this concept is
+referenced as `freshness_threshold` and is a server-side configuration.
+
+In Sensu it is called `ttl` and is a check-defined configuration option.
+`pysensu-yelp` exposes this parameter as `ttl`, as a human-readable time
+unit. (`ttl=1h` will make Sensu send an alert if the `send_event` function
+isn't called at least once an hour)
+
+**Note**: If you have removed a check, renamed it, or moved it to a different
+host, Sensu will *still* fire a staleness alert. This is because the
+`source/check_name` is the primary key to distinguish events in Sensu.
+Changing anything that adjusts that primary key will cause a new event to be
+created, and the old one will linger forever. You must manually "resolve" that
+old alert, either using the sensu-cli or using a Sensu dashboard to make it go
+away.
+
+
+Using pysensu-yelp in a Docker Container
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+At Yelp we use the `yocalhost` ip, `169.254.255.254` to allow things in docker
+containers to utilize services on the host. ``pysensu-yelp`` uses this yocalhost
+IP by default.
+
+Additionally, docker containers should be considered ephemeral and potentially
+launched from any number of hosts. This is potentially confusing to Sensu, because
+the "hostname" is part of the identifier of an alert. The more correct thing to do
+is to specify the `source` of the alert, so that it will use your unique source
+instead of the hostname of the server that happens to host the docker container
+at that exact moment.
+
+A final invocation might look like this::
+
+    pysensu_yelp.send_event(
+        name="my_cool_check",
+        output="The thing is broken",
+        status=2,
+        team="ops",
+        runbook="http://pysensu-yelp.readthedocs.org",
+        ttl="1h",
+        source="my_cool_service",
+    )
+
+"""
+
 try:
     from collections import OrderedDict
 except ImportError:
@@ -82,7 +188,7 @@ def send_event(
     project=None,
     source=None,
     ttl=None,
-    sensu_host='localhost',
+    sensu_host='169.254.255.254',
     sensu_port=3030,
 ):
     """Send a new event with the given information. Requires a name, runbook,
@@ -163,6 +269,10 @@ def send_event(
                 not hear from the check after this time unit, Sensu will spawn a
                 new failing event! (aka check staleness) Defaults to None,
                 meaning Sensu will only spawn events when send_event is called.
+
+    :type sensu_host: str
+    :param sensu_host: The IP or Name to connect to for sending the event.
+                       Defaults to the yocalhost IP.
 
     Note on TTL events and alert_after:
     ``alert_after`` and ``check_every`` only really make sense on events that are created
