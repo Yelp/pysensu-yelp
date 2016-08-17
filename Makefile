@@ -5,7 +5,7 @@ docs:
 	cp -a .docs_redirect docs/build/html
 
 test:
-	tox -e py26
+	tox -e py27
 
 tests: test
 coverage: test
