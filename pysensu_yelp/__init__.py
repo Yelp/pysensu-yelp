@@ -112,10 +112,7 @@ A final invocation might look like this::
 
 """
 
-try:
-    from collections import OrderedDict
-except ImportError:
-    from ordereddict import OrderedDict
+from collections import OrderedDict
 
 # Status codes for sensu checks
 # Code using this module can write pysensu_yelp.Status.OK, etc
