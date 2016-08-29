@@ -14,3 +14,10 @@ clean:
 	find . -name '*.pyc' -delete
 	find . -name '__pycache__' -delete
 	rm -rf pysensu_yelp.egg-info/
+
+package: clean
+	github_changelog_generator
+	python setup.py sdist bdist_wheel
+
+publish: package
+	twine upload dist/*
