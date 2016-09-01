@@ -18,6 +18,3 @@ clean:
 package: clean
 	github_changelog_generator
 	python setup.py sdist bdist_wheel
-
-publish: package
-	twine upload dist/*

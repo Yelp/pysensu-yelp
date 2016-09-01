@@ -1,12 +1,21 @@
 language: python
-# We use the built-in tox matrix capabilities instead of matrixing on different
-# python versions directly.
-python: 
-  - 2.7
+python:
+- 2.7
 install:
-  - pip install tox
+- pip install tox
 script:
-  - tox
+- tox
 env:
-  - TOXENV=py27
-  - TOXENV=py34
+- TOXENV=py27
+- TOXENV=py34
+
+deploy:
+  provider: pypi
+  user: yelplabs
+  password:
+    secure: bmL5K8CYiBWH1fICyvI7f6kKOcWYZ9rqfnsKkfE/V3ES5Gqqjml6sKFaPsJP/syK2DmmFDoifrPli8VN35jez2exgASdSY4pM8LRw9MbxUnjnyJa9DTNfju2Gm6i7gwalyCxpblvzcv4WqpSt9On8r5neu5PJSPcvIHxo8Q7RGk=
+  on:
+    tags: true
+    condition: $TOXENV == py27
+    distributions: sdist bdist_wheel
+    repo: Yelp/pysensu-yelp
