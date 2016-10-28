@@ -184,6 +184,7 @@ def send_event(
     ticket=False,
     project=None,
     source=None,
+    tags=[],
     ttl=None,
     sensu_host='169.254.255.254',
     sensu_port=3030,
@@ -261,6 +262,10 @@ def send_event(
                    one event that looked like it came from ``the_cluster``, so
                    you would set ``source='the_cluster'``.
 
+    :type tags: array
+    :param tags: An array of arbitrary tags that can be used in handlers for
+                 different metadata needs such as labels in JIRA handlers.
+
     :type ttl: str
     :param ttl: A human readable time unit to set the check TTL. If Sensu does
                 not hear from the check after this time unit, Sensu will spawn a
@@ -306,6 +311,7 @@ def send_event(
         'ticket': ticket,
         'project': project,
         'source': source,
+        'tags': tags,
         'ttl': human_to_seconds(ttl),
     }
     if irc_channels:
