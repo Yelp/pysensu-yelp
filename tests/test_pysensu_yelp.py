@@ -21,6 +21,7 @@ class TestPySensuYelp:
     test_ticket = True
     test_project = 'TEST_SENSU'
     test_source = 'source.test'
+    test_tags = ['tag1', 'tag2']
     test_ttl = '30M'
 
     event_dict = {
@@ -40,6 +41,7 @@ class TestPySensuYelp:
         'ticket': test_ticket,
         'project': test_project,
         'source': test_source,
+        'tags': test_tags,
         'ttl': pysensu_yelp.human_to_seconds(test_ttl),
     }
     event_dict['irc_channels'] = test_irc_channels
@@ -71,6 +73,7 @@ class TestPySensuYelp:
                                     ticket=self.test_ticket,
                                     project=self.test_project,
                                     source=self.test_source,
+                                    tags=self.test_tags,
                                     ttl=self.test_ttl)
             assert skt_patch.call_count == 1
             magic_skt.connect.assert_called_once_with(('169.254.255.254', 3030))
@@ -92,6 +95,7 @@ class TestPySensuYelp:
                                     ticket=self.test_ticket,
                                     project=self.test_project,
                                     source=self.test_source,
+                                    tags=self.test_tags,
                                     ttl=self.test_ttl,
                                     sensu_host='testhost',
                                     sensu_port=666)
@@ -116,6 +120,7 @@ class TestPySensuYelp:
                                         ticket=self.test_ticket,
                                         project=self.test_project,
                                         source=self.test_source,
+                                        tags=self.test_tags,
                                         ttl=self.test_ttl)
             skt_patch.assert_not_called()
 
@@ -137,4 +142,5 @@ class TestPySensuYelp:
                                             ticket=self.test_ticket,
                                             project=self.test_project,
                                             source=self.test_source,
+                                            tags=self.test_tags,
                                             ttl=self.test_ttl)
