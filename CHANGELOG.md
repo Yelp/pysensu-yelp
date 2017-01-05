@@ -1,5 +1,15 @@
 # Change Log
 
+## [0.3.3](https://github.com/Yelp/pysensu-yelp/tree/0.3.3) (2017-01-05)
+[Full Changelog](https://github.com/Yelp/pysensu-yelp/compare/v0.3.2...0.3.3)
+
+**Merged pull requests:**
+
+- Add tags parameter to send\_event [\#18](https://github.com/Yelp/pysensu-yelp/pull/18) ([yzernik](https://github.com/yzernik))
+
+## [v0.3.2](https://github.com/Yelp/pysensu-yelp/tree/v0.3.2) (2016-09-01)
+[Full Changelog](https://github.com/Yelp/pysensu-yelp/compare/v0.3.1...v0.3.2)
+
 ## [v0.3.1](https://github.com/Yelp/pysensu-yelp/tree/v0.3.1) (2016-08-29)
 [Full Changelog](https://github.com/Yelp/pysensu-yelp/compare/v0.3.0...v0.3.1)
 
