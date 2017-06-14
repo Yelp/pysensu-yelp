@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/Yelp/pysensu-yelp.svg?branch=master)](https://travis-ci.org/Yelp/pysensu-yelp)
 
 pysensu-yelp is a python library designed for interacting with the
-cutom Yelp sensu-handlers. 
+custom Yelp sensu-handlers. 
 
 This allows developers to get notified in the method of their choice,
 on arbitrary events that might happen in their code.
