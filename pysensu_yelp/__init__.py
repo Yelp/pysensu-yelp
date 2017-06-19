@@ -237,13 +237,14 @@ def send_event(
                         enough occurrences have taken place. Only valid when
                         check_every is accurate.
 
-    :type dependencies: array
-    :param dependencies: An array of strings representing checks that *this*
+    :type dependencies: list
+    :param dependencies: An list of strings representing checks that *this*
                          check is dependent on.
 
-    :type irc_channels: array
-    :param irc_channels: An array of IRC channels to send the event
-                         notification to. Defaults to the team setting.
+    :type irc_channels: list
+    :param irc_channels: An list of IRC channels to send the event
+                         notification to. Defaults to the team setting. Set an empty
+                         list to specify no irc notifications.
 
     :type ticket: bool
     :param ticket: A Boolean value to enable ticket creation. Defaults to false.
@@ -262,8 +263,8 @@ def send_event(
                    one event that looked like it came from ``the_cluster``, so
                    you would set ``source='the_cluster'``.
 
-    :type tags: array
-    :param tags: An array of arbitrary tags that can be used in handlers for
+    :type tags: list
+    :param tags: An list of arbitrary tags that can be used in handlers for
                  different metadata needs such as labels in JIRA handlers.
 
     :type ttl: str
@@ -314,7 +315,7 @@ def send_event(
         'tags': tags,
         'ttl': human_to_seconds(ttl),
     }
-    if irc_channels:
+    if irc_channels is not None:
         result_dict['irc_channels'] = irc_channels
 
     json_hash = json.dumps(result_dict)
