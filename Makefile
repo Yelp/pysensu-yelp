@@ -16,5 +16,7 @@ clean:
 	rm -rf pysensu_yelp.egg-info/
 
 package: clean
-	github_changelog_generator
 	python setup.py sdist bdist_wheel
+
+upload:
+	python setup.py sdist upload
