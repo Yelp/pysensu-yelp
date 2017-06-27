@@ -2,6 +2,7 @@ import pysensu_yelp
 import mock
 import json
 import pytest
+import six
 
 
 class TestPySensuYelp:
@@ -45,7 +46,7 @@ class TestPySensuYelp:
         'ttl': pysensu_yelp.human_to_seconds(test_ttl),
     }
     event_dict['irc_channels'] = test_irc_channels
-    event_hash = json.dumps(event_dict)
+    event_hash = six.b(json.dumps(event_dict))
 
     def test_human_to_seconds(self):
         assert pysensu_yelp.human_to_seconds('1s') == 1
@@ -77,7 +78,7 @@ class TestPySensuYelp:
                                     ttl=self.test_ttl)
             assert skt_patch.call_count == 1
             magic_skt.connect.assert_called_once_with(('169.254.255.254', 3030))
-            magic_skt.sendall.assert_called_once_with(self.event_hash + '\n')
+            magic_skt.sendall.assert_called_once_with(self.event_hash + b'\n')
             magic_skt.close.assert_called_once()
 
     def test_send_event_custom_sensu_host(self):
@@ -101,7 +102,7 @@ class TestPySensuYelp:
                                     sensu_port=666)
             assert skt_patch.call_count == 1
             magic_skt.connect.assert_called_once_with(('testhost', 666))
-            magic_skt.sendall.assert_called_once_with(self.event_hash + '\n')
+            magic_skt.sendall.assert_called_once_with(self.event_hash + b'\n')
             magic_skt.close.assert_called_once()
 
     def test_send_event_no_team(self):

@@ -7,6 +7,8 @@ import subprocess
 import re
 import sys
 
+import six
+
 """
 pysensu-yelp
 ============
@@ -190,7 +192,7 @@ def send_event(
     sensu_port=3030,
 ):
     """Send a new event with the given information. Requires a name, runbook,
-    status code, and event output, but the other keys are kwargs and have
+    status code, event output, and team but the other keys are kwargs and have
     defaults.
 
     :type name: str
@@ -200,7 +202,7 @@ def send_event(
     :param runbook: The runbook associated with the check
 
     :type status: int
-    :param status: Exist status code, 0,1,2,3. Must comply with the Nagios
+    :param status: Exit status code, 0,1,2,3. Must comply with the Nagios
                    conventions. See `the Sensu docs <https://sensuapp.org/docs/latest/checks#sensu-check-specification>`_
                    for the exact specification.
 
@@ -319,10 +321,11 @@ def send_event(
         result_dict['irc_channels'] = irc_channels
 
     json_hash = json.dumps(result_dict)
+
     sock = socket.socket()
     try:
         sock.connect((sensu_host, sensu_port))
-        sock.sendall(json_hash + '\n')
+        sock.sendall(six.b(json_hash) + b'\n')
     finally:
         sock.close()
 
