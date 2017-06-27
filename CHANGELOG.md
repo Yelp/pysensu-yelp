@@ -1,7 +1,22 @@
 # Change Log
 
-## [0.3.3](https://github.com/Yelp/pysensu-yelp/tree/0.3.3) (2017-01-05)
-[Full Changelog](https://github.com/Yelp/pysensu-yelp/compare/v0.3.2...0.3.3)
+## [0.3.4](https://github.com/Yelp/pysensu-yelp/tree/0.3.4) (2017-06-27)
+[Full Changelog](https://github.com/Yelp/pysensu-yelp/compare/v0.3.3...0.3.4)
+
+**Closed issues:**
+
+- irc\_channels check invalid for empty array [\#20](https://github.com/Yelp/pysensu-yelp/issues/20)
+- The 'output' parameter to send\_event is not documented [\#13](https://github.com/Yelp/pysensu-yelp/issues/13)
+- release 0.2.3 to public pypi [\#11](https://github.com/Yelp/pysensu-yelp/issues/11)
+
+**Merged pull requests:**
+
+- py36 support [\#22](https://github.com/Yelp/pysensu-yelp/pull/22) ([analogue](https://github.com/analogue))
+- Allow users to request no irc channels. Fixes \#3 [\#21](https://github.com/Yelp/pysensu-yelp/pull/21) ([solarkennedy](https://github.com/solarkennedy))
+- Fix typo in README. [\#19](https://github.com/Yelp/pysensu-yelp/pull/19) ([yzernik](https://github.com/yzernik))
+
+## [v0.3.3](https://github.com/Yelp/pysensu-yelp/tree/v0.3.3) (2017-01-05)
+[Full Changelog](https://github.com/Yelp/pysensu-yelp/compare/v0.3.2...v0.3.3)
 
 **Merged pull requests:**
 
