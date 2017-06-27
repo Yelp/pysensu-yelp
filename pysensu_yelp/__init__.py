@@ -206,6 +206,15 @@ def send_event(
                    conventions. See `the Sensu docs <https://sensuapp.org/docs/latest/checks#sensu-check-specification>`_
                    for the exact specification.
 
+    :type output: str
+    :param output: The output of the check itself. May include CRIT/WARN/OK to make
+                   it easy to evaluate how things went. Should be newline separated,
+                   but try to put the most relevant data in the first line.
+                   Example:
+                   OK: Everything is fine
+                   or
+                   CRIT: Accounts are locked. Users can't buy widgets.
+
     :type team: str
     :param team: Team responsible for this check. This team must already be defined
                  server-side in the Sensu handler configuration.
