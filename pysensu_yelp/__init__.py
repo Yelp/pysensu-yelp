@@ -291,11 +291,15 @@ def send_event(
                        Defaults to the yocalhost IP.
 
     :type component: list
-    :param component: Component(s) affected by the event.
+    :param component: Component(s) affected by the event. Good example here would
+                      would be to include the service that is being affected or a
+                      module of that service such as healthcheck.
 
     :type description: str
-    :param description: Human readable text giving more context on the event.
-                        This is used to enrich the information sent to PagerDuty.
+    :param description: Human readable text giving more context on the event. This could
+                        include information on what the check means or why was it
+                        created.
+
 
     Note on TTL events and alert_after:
     ``alert_after`` and ``check_every`` only really make sense on events that are created
