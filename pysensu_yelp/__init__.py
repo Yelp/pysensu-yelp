@@ -190,6 +190,8 @@ def send_event(
     ttl=None,
     sensu_host='169.254.255.254',
     sensu_port=3030,
+    component=None,
+    description=None
 ):
     """Send a new event with the given information. Requires a name, runbook,
     status code, event output, and team but the other keys are kwargs and have
@@ -288,6 +290,17 @@ def send_event(
     :param sensu_host: The IP or Name to connect to for sending the event.
                        Defaults to the yocalhost IP.
 
+    :type component: list
+    :param component: Component(s) affected by the event. Good example here would
+                      would be to include the service that is being affected or a
+                      module of that service such as healthcheck.
+
+    :type description: str
+    :param description: Human readable text giving more context on the event. This could
+                        include information on what the check means or why was it
+                        created.
+
+
     Note on TTL events and alert_after:
     ``alert_after`` and ``check_every`` only really make sense on events that are created
     periodically. Setting ``alert_after`` on checks that are not periodic is not advised
@@ -328,6 +341,12 @@ def send_event(
     }
     if irc_channels is not None:
         result_dict['irc_channels'] = irc_channels
+
+    if component is not None:
+        result_dict['component'] = component
+
+    if description is not None:
+        result_dict['description'] = description
 
     json_hash = json.dumps(result_dict)
 
