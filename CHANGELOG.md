@@ -1,7 +1,14 @@
 # Change Log
 
-## [0.3.4](https://github.com/Yelp/pysensu-yelp/tree/0.3.4) (2017-06-27)
-[Full Changelog](https://github.com/Yelp/pysensu-yelp/compare/v0.3.3...0.3.4)
+## [v0.3.5](https://github.com/Yelp/pysensu-yelp/tree/v0.3.5) (2018-03-14)
+[Full Changelog](https://github.com/Yelp/pysensu-yelp/compare/v0.3.4...v0.3.5)
+
+**Merged pull requests:**
+
+- Add component and description to sensu event payload. [\#23](https://github.com/Yelp/pysensu-yelp/pull/23) ([rahulravindran0108](https://github.com/rahulravindran0108))
+
+## [v0.3.4](https://github.com/Yelp/pysensu-yelp/tree/v0.3.4) (2017-06-27)
+[Full Changelog](https://github.com/Yelp/pysensu-yelp/compare/v0.3.3...v0.3.4)
 
 **Closed issues:**
 
