@@ -19,6 +19,7 @@ class TestPySensuYelp:
     test_alert_after = '1Y'
     test_dependencies = ['a_5_year_old']
     test_irc_channels = ['#sensu_test']
+    test_slack_channels = ['#sensu_test_slack']
     test_ticket = True
     test_project = 'TEST_SENSU'
     test_source = 'source.test'
@@ -46,6 +47,7 @@ class TestPySensuYelp:
         'ttl': pysensu_yelp.human_to_seconds(test_ttl),
     }
     event_dict['irc_channels'] = test_irc_channels
+    event_dict['slack_channels'] = test_slack_channels
     event_hash = six.b(json.dumps(event_dict))
 
     def test_human_to_seconds(self):
@@ -71,6 +73,7 @@ class TestPySensuYelp:
                                     alert_after=self.test_alert_after,
                                     dependencies=self.test_dependencies,
                                     irc_channels=self.test_irc_channels,
+                                    slack_channels=self.test_slack_channels,
                                     ticket=self.test_ticket,
                                     project=self.test_project,
                                     source=self.test_source,
@@ -93,6 +96,7 @@ class TestPySensuYelp:
                                     alert_after=self.test_alert_after,
                                     dependencies=self.test_dependencies,
                                     irc_channels=self.test_irc_channels,
+                                    slack_channels=self.test_slack_channels,
                                     ticket=self.test_ticket,
                                     project=self.test_project,
                                     source=self.test_source,
@@ -118,6 +122,7 @@ class TestPySensuYelp:
                                         alert_after=self.test_alert_after,
                                         dependencies=self.test_dependencies,
                                         irc_channels=self.test_irc_channels,
+                                        slack_channels=self.test_slack_channels,
                                         ticket=self.test_ticket,
                                         project=self.test_project,
                                         source=self.test_source,
@@ -140,6 +145,7 @@ class TestPySensuYelp:
                                             alert_after=self.test_alert_after,
                                             dependencies=self.test_dependencies,
                                             irc_channels=self.test_irc_channels,
+                                            slack_channels=self.test_slack_channels,
                                             ticket=self.test_ticket,
                                             project=self.test_project,
                                             source=self.test_source,
