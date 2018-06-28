@@ -183,6 +183,7 @@ def send_event(
     alert_after='0s',
     dependencies=[],
     irc_channels=None,
+    slack_channels=None,
     ticket=False,
     project=None,
     source=None,
@@ -257,7 +258,12 @@ def send_event(
     :type irc_channels: list
     :param irc_channels: An list of IRC channels to send the event
                          notification to. Defaults to the team setting. Set an empty
-                         list to specify no irc notifications.
+                         list to specify no IRC notifications.
+
+    :type slack_channels: list
+    :param slack_channels: An list of Slack channels to send the event
+                         notification to. Defaults to the team setting. Set an empty
+                         list to specify no Slack notifications.
 
     :type ticket: bool
     :param ticket: A Boolean value to enable ticket creation. Defaults to false.
@@ -341,6 +347,9 @@ def send_event(
     }
     if irc_channels is not None:
         result_dict['irc_channels'] = irc_channels
+
+    if slack_channels is not None:
+        result_dict['slack_channels'] = slack_channels
 
     if component is not None:
         result_dict['component'] = component

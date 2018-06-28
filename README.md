@@ -35,6 +35,7 @@ result_dict = {
     'page': True,
     'notification_email': None,
     'irc_channels': None,
+    'slack_channels': None,
     'alert_after': '5m',
     'check_every': '1m',
     'realert_every': -1,
