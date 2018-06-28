@@ -1,5 +1,17 @@
 # Change Log
 
+## [0.4.0](https://github.com/Yelp/pysensu-yelp/tree/0.4.0) (2018-06-28)
+[Full Changelog](https://github.com/Yelp/pysensu-yelp/compare/v0.3.5...0.4.0)
+
+**Closed issues:**
+
+- Slack integration [\#25](https://github.com/Yelp/pysensu-yelp/issues/25)
+- Changelog entry for 0.3.5 missing [\#24](https://github.com/Yelp/pysensu-yelp/issues/24)
+
+**Merged pull requests:**
+
+- Added slack\_channels. Fixes \#25 [\#26](https://github.com/Yelp/pysensu-yelp/pull/26) ([solarkennedy](https://github.com/solarkennedy))
+
 ## [v0.3.5](https://github.com/Yelp/pysensu-yelp/tree/v0.3.5) (2018-03-14)
 [Full Changelog](https://github.com/Yelp/pysensu-yelp/compare/v0.3.4...v0.3.5)
 
