@@ -22,6 +22,7 @@ class TestPySensuYelp:
     test_slack_channels = ['#sensu_test_slack']
     test_ticket = True
     test_project = 'TEST_SENSU'
+    test_priority = '0'
     test_source = 'source.test'
     test_tags = ['tag1', 'tag2']
     test_ttl = '30M'
@@ -42,6 +43,7 @@ class TestPySensuYelp:
         'alert_after': pysensu_yelp.human_to_seconds(test_alert_after),
         'ticket': test_ticket,
         'project': test_project,
+        'priority': test_priority,
         'source': test_source,
         'tags': test_tags,
         'ttl': pysensu_yelp.human_to_seconds(test_ttl),
@@ -76,6 +78,7 @@ class TestPySensuYelp:
                                     slack_channels=self.test_slack_channels,
                                     ticket=self.test_ticket,
                                     project=self.test_project,
+                                    priority=self.test_priority,
                                     source=self.test_source,
                                     tags=self.test_tags,
                                     ttl=self.test_ttl)
@@ -99,6 +102,7 @@ class TestPySensuYelp:
                                     slack_channels=self.test_slack_channels,
                                     ticket=self.test_ticket,
                                     project=self.test_project,
+                                    priority=self.test_priority,
                                     source=self.test_source,
                                     tags=self.test_tags,
                                     ttl=self.test_ttl,
@@ -125,6 +129,7 @@ class TestPySensuYelp:
                                         slack_channels=self.test_slack_channels,
                                         ticket=self.test_ticket,
                                         project=self.test_project,
+                                        priority=self.test_priority,
                                         source=self.test_source,
                                         tags=self.test_tags,
                                         ttl=self.test_ttl)
@@ -148,6 +153,7 @@ class TestPySensuYelp:
                                             slack_channels=self.test_slack_channels,
                                             ticket=self.test_ticket,
                                             project=self.test_project,
+                                            priority=self.test_priority,
                                             source=self.test_source,
                                             tags=self.test_tags,
                                             ttl=self.test_ttl)
