@@ -327,7 +327,7 @@ def send_event(
     """
     if not (name and team):
         raise ValueError("Name and team must be present")
-    if not re.match('^[\w\.-]+$', name):
+    if not re.match(r'^[\w\.-]+$', name):
         raise ValueError("Name cannot contain special characters")
     if not runbook:
         runbook = 'Please set a runbook!'
