@@ -186,13 +186,14 @@ def send_event(
     slack_channels=None,
     ticket=False,
     project=None,
+    priority=None,
     source=None,
     tags=[],
     ttl=None,
     sensu_host='169.254.255.254',
     sensu_port=3030,
     component=None,
-    description=None
+    description=None,
 ):
     """Send a new event with the given information. Requires a name, runbook,
     status code, event output, and team but the other keys are kwargs and have
@@ -272,6 +273,11 @@ def send_event(
     :param project: A string representing the JIRA project that the ticket
                     should go under. Defaults to the team value.
 
+    :type priority: str
+    :param priority: A JIRA priority to use when creating a ticket. This only
+                     makes sense to use when in combination with the ticket
+                     parameter set to true.
+
     :type source: str
     :param source: Allows "masquerading" the source value of the event,
                    otherwise comes from the fqdn of the host it runs on.
@@ -321,7 +327,7 @@ def send_event(
     """
     if not (name and team):
         raise ValueError("Name and team must be present")
-    if not re.match('^[\w\.-]+$', name):
+    if not re.match(r'^[\w\.-]+$', name):
         raise ValueError("Name cannot contain special characters")
     if not runbook:
         runbook = 'Please set a runbook!'
@@ -341,6 +347,7 @@ def send_event(
         'alert_after': human_to_seconds(alert_after),
         'ticket': ticket,
         'project': project,
+        'priority': priority,
         'source': source,
         'tags': tags,
         'ttl': human_to_seconds(ttl),
