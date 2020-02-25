@@ -26,6 +26,7 @@ class TestPySensuYelp:
     test_source = 'source.test'
     test_tags = ['tag1', 'tag2']
     test_ttl = '30M'
+    test_cluster_name = 'test_cluster'
 
     event_dict = {
         'name': test_name,
@@ -50,6 +51,7 @@ class TestPySensuYelp:
     }
     event_dict['irc_channels'] = test_irc_channels
     event_dict['slack_channels'] = test_slack_channels
+    event_dict['cluster_name'] = test_cluster_name
     event_hash = six.b(json.dumps(event_dict))
 
     def test_human_to_seconds(self):
@@ -81,7 +83,8 @@ class TestPySensuYelp:
                                     priority=self.test_priority,
                                     source=self.test_source,
                                     tags=self.test_tags,
-                                    ttl=self.test_ttl)
+                                    ttl=self.test_ttl,
+                                    cluster_name=self.test_cluster_name)
             assert skt_patch.call_count == 1
             magic_skt.connect.assert_called_once_with(('169.254.255.254', 3030))
             magic_skt.sendall.assert_called_once_with(self.event_hash + b'\n')
@@ -107,7 +110,8 @@ class TestPySensuYelp:
                                     tags=self.test_tags,
                                     ttl=self.test_ttl,
                                     sensu_host='testhost',
-                                    sensu_port=666)
+                                    sensu_port=666,
+                                    cluster_name=self.test_cluster_name)
             assert skt_patch.call_count == 1
             magic_skt.connect.assert_called_once_with(('testhost', 666))
             magic_skt.sendall.assert_called_once_with(self.event_hash + b'\n')
@@ -132,7 +136,8 @@ class TestPySensuYelp:
                                         priority=self.test_priority,
                                         source=self.test_source,
                                         tags=self.test_tags,
-                                        ttl=self.test_ttl)
+                                        ttl=self.test_ttl,
+                                        cluster_name=self.test_cluster_name)
             skt_patch.assert_not_called()
 
     def test_no_special_characters_in_name(self):
@@ -156,4 +161,5 @@ class TestPySensuYelp:
                                             priority=self.test_priority,
                                             source=self.test_source,
                                             tags=self.test_tags,
-                                            ttl=self.test_ttl)
+                                            ttl=self.test_ttl,
+                                            cluster_name=self.test_cluster_name)
