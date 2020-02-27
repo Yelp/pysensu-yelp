@@ -194,6 +194,7 @@ def send_event(
     sensu_port=3030,
     component=None,
     description=None,
+    cluster_name=None
 ):
     """Send a new event with the given information. Requires a name, runbook,
     status code, event output, and team but the other keys are kwargs and have
@@ -312,6 +313,8 @@ def send_event(
                         include information on what the check means or why was it
                         created.
 
+    :type cluster_name: str
+    :param description: To be added to the result output, used by cluster checks
 
     Note on TTL events and alert_after:
     ``alert_after`` and ``check_every`` only really make sense on events that are created
@@ -363,6 +366,9 @@ def send_event(
 
     if description is not None:
         result_dict['description'] = description
+
+    if cluster_name is not None:
+        result_dict['cluster_name'] = cluster_name
 
     json_hash = json.dumps(result_dict)
 
