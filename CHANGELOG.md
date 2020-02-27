@@ -1,21 +1,21 @@
 # Change Log
 
 ## [0.4.2](https://github.com/Yelp/pysensu-yelp/tree/v0.4.2) (2020-02-27)
-[Full Changelog](https://github.com/Yelp/pysensu-yelp/compare/v0.4.1...0.4.2)
+[Full Changelog](https://github.com/Yelp/pysensu-yelp/compare/v0.4.1...v0.4.2)
 
 **Merged pull requests:**
 
 - Added the cluster\_name parameter. [\#28](https://github.com/Yelp/pysensu-yelp/pull/28) ([jedirandy](https://github.com/jedirandy))
 
 ## [0.4.1](https://github.com/Yelp/pysensu-yelp/tree/v0.4.1) (2019-01-17)
-[Full Changelog](https://github.com/Yelp/pysensu-yelp/compare/v0.4.0...0.4.1)
+[Full Changelog](https://github.com/Yelp/pysensu-yelp/compare/v0.4.0...v0.4.1)
 
 **Merged pull requests:**
 
 - Added priority option for JIRA tickets. [\#27](https://github.com/Yelp/pysensu-yelp/pull/27) ([jvperrin](https://github.com/jvperrin))
 
 ## [0.4.0](https://github.com/Yelp/pysensu-yelp/tree/v0.4.0) (2018-06-28)
-[Full Changelog](https://github.com/Yelp/pysensu-yelp/compare/v0.3.5...0.4.0)
+[Full Changelog](https://github.com/Yelp/pysensu-yelp/compare/v0.3.5...v0.4.0)
 
 **Closed issues:**
 
