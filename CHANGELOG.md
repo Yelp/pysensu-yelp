@@ -1,7 +1,7 @@
 # Change Log
 
-## [0.4.2](https://github.com/Yelp/pysensu-yelp/tree/v0.4.2) (2020-02-27)
-[Full Changelog](https://github.com/Yelp/pysensu-yelp/compare/v0.4.1...v0.4.2)
+## [0.4.3](https://github.com/Yelp/pysensu-yelp/tree/v0.4.3) (2020-02-27)
+[Full Changelog](https://github.com/Yelp/pysensu-yelp/compare/v0.4.1...v0.4.3)
 
 **Merged pull requests:**
 
