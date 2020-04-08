@@ -194,7 +194,8 @@ def send_event(
     sensu_port=3030,
     component=None,
     description=None,
-    cluster_name=None
+    cluster_name=None,
+    issuetype=None,
 ):
     """Send a new event with the given information. Requires a name, runbook,
     status code, event output, and team but the other keys are kwargs and have
@@ -314,7 +315,11 @@ def send_event(
                         created.
 
     :type cluster_name: str
-    :param description: To be added to the result output, used by cluster checks
+    :param cluster_name: To be added to the result output, used by cluster checks
+
+    :type issuetype: str
+    :param issuetype: An issue type name such as "Incident" or "Task" to use for
+                      newly created JIRA tickets from sensu checks.
 
     Note on TTL events and alert_after:
     ``alert_after`` and ``check_every`` only really make sense on events that are created
@@ -354,6 +359,7 @@ def send_event(
         'source': source,
         'tags': tags,
         'ttl': human_to_seconds(ttl),
+        'issuetype': issuetype,
     }
     if irc_channels is not None:
         result_dict['irc_channels'] = irc_channels
