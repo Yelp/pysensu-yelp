@@ -1,5 +1,12 @@
 # Change Log
 
+## [0.4.4](https://github.com/Yelp/pysensu-yelp/tree/v0.4.4) (2020-04-13)
+[Full Changelog](https://github.com/Yelp/pysensu-yelp/compare/v0.4.3...v0.4.4)
+
+**Merged pull requests:**
+
+- Add a custom issuetype optional parameter [\#30](https://github.com/Yelp/pysensu-yelp/pull/30) ([jvperrin](https://github.com/jvperrin))
+
 ## [0.4.3](https://github.com/Yelp/pysensu-yelp/tree/v0.4.3) (2020-02-27)
 [Full Changelog](https://github.com/Yelp/pysensu-yelp/compare/v0.4.1...v0.4.3)
 
