@@ -27,6 +27,7 @@ class TestPySensuYelp:
     test_tags = ['tag1', 'tag2']
     test_ttl = '30M'
     test_cluster_name = 'test_cluster'
+    test_issuetype = 'Incident'
 
     event_dict = {
         'name': test_name,
@@ -48,6 +49,7 @@ class TestPySensuYelp:
         'source': test_source,
         'tags': test_tags,
         'ttl': pysensu_yelp.human_to_seconds(test_ttl),
+        'issuetype': test_issuetype,
     }
     event_dict['irc_channels'] = test_irc_channels
     event_dict['slack_channels'] = test_slack_channels
@@ -84,7 +86,8 @@ class TestPySensuYelp:
                                     source=self.test_source,
                                     tags=self.test_tags,
                                     ttl=self.test_ttl,
-                                    cluster_name=self.test_cluster_name)
+                                    cluster_name=self.test_cluster_name,
+                                    issuetype=self.test_issuetype)
             assert skt_patch.call_count == 1
             magic_skt.connect.assert_called_once_with(('169.254.255.254', 3030))
             magic_skt.sendall.assert_called_once_with(self.event_hash + b'\n')
@@ -111,7 +114,8 @@ class TestPySensuYelp:
                                     ttl=self.test_ttl,
                                     sensu_host='testhost',
                                     sensu_port=666,
-                                    cluster_name=self.test_cluster_name)
+                                    cluster_name=self.test_cluster_name,
+                                    issuetype=self.test_issuetype)
             assert skt_patch.call_count == 1
             magic_skt.connect.assert_called_once_with(('testhost', 666))
             magic_skt.sendall.assert_called_once_with(self.event_hash + b'\n')
@@ -137,7 +141,8 @@ class TestPySensuYelp:
                                         source=self.test_source,
                                         tags=self.test_tags,
                                         ttl=self.test_ttl,
-                                        cluster_name=self.test_cluster_name)
+                                        cluster_name=self.test_cluster_name,
+                                        issuetype=self.test_issuetype)
             skt_patch.assert_not_called()
 
     def test_no_special_characters_in_name(self):
@@ -162,4 +167,5 @@ class TestPySensuYelp:
                                             source=self.test_source,
                                             tags=self.test_tags,
                                             ttl=self.test_ttl,
-                                            cluster_name=self.test_cluster_name)
+                                            cluster_name=self.test_cluster_name,
+                                            issuetype=self.test_issuetype)
