@@ -4,6 +4,9 @@ docs:
 	mkdir -p docs/build/
 	cp -a .docs_redirect docs/build/html
 
+install-hooks:
+	tox -e pre-commit
+
 test:
 	tox
 
