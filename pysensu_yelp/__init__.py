@@ -6,6 +6,9 @@ import socket
 import subprocess
 import sys
 from collections import OrderedDict
+from enum import IntEnum
+from typing import List
+from typing import Optional
 
 """
 pysensu-yelp
@@ -112,10 +115,16 @@ A final invocation might look like this::
 
 """
 
+
 # Status codes for sensu checks
 # Code using this module can write pysensu_yelp.Status.OK, etc
 # for easy status codes
-Status = type("Enum", (), {"OK": 0, "WARNING": 1, "CRITICAL": 2, "UNKNOWN": 3})
+class Status(IntEnum):
+    OK = 0
+    WARNING = 1
+    CRITICAL = 2
+    UNKNOWN = 3
+
 
 # Copied from:
 # http://thomassileo.com/blog/2013/03/31/how-to-convert-seconds-to-human-readable-interval-back-and-forth-with-python/
@@ -132,7 +141,7 @@ interval_dict = OrderedDict(
 )
 
 
-def human_to_seconds(string):
+def human_to_seconds(string: Optional[str]) -> Optional[int]:
     """Convert internal string like 1M, 1Y3M, 3W to seconds.
 
     :type string: str
@@ -167,33 +176,33 @@ def human_to_seconds(string):
 
 
 def send_event(
-    name,
-    runbook,
-    status,
-    output,
-    team,
-    page=False,
-    tip=None,
-    notification_email=None,
-    check_every="30s",
-    realert_every=-1,
-    alert_after="0s",
-    dependencies=[],
-    irc_channels=None,
-    slack_channels=None,
-    ticket=False,
-    project=None,
-    priority=None,
-    source=None,
-    tags=[],
-    ttl=None,
-    sensu_host="169.254.255.254",
-    sensu_port=3030,
-    component=None,
-    description=None,
-    cluster_name=None,
-    issuetype=None,
-):
+    name: str,
+    runbook: str,
+    status: Status,
+    output: str,
+    team: str,
+    page: bool = False,
+    tip: Optional[str] = None,
+    notification_email: Optional[str] = None,
+    check_every: str = "30s",
+    realert_every: int = -1,
+    alert_after: str = "0s",
+    dependencies: List[str] = [],
+    irc_channels: Optional[str] = None,
+    slack_channels: Optional[str] = None,
+    ticket: bool = False,
+    project: Optional[str] = None,
+    priority: Optional[str] = None,
+    source: Optional[str] = None,
+    tags: List[str] = [],
+    ttl: Optional[str] = None,
+    sensu_host: str = "169.254.255.254",
+    sensu_port: int = 3030,
+    component: Optional[str] = None,
+    description: Optional[str] = None,
+    cluster_name: Optional[str] = None,
+    issuetype: Optional[str] = None,
+) -> None:
     """Send a new event with the given information. Requires a name, runbook,
     status code, event output, and team but the other keys are kwargs and have
     defaults.
@@ -383,7 +392,7 @@ def send_event(
         sock.close()
 
 
-def do_command_wrapper():
+def do_command_wrapper() -> int:
     parser = argparse.ArgumentParser(
         description="Execute a nagios plugin and report the results to a local Sensu agent"
     )
