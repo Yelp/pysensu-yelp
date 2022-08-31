@@ -127,9 +127,9 @@ interval_dict = OrderedDict(
         ("D", 86400),  # 1 day
         ("h", 3600),  # 1 hour
         ("m", 60),  # 1 minute
-        ("s", 1),
+        ("s", 1),  # 1 second
     ]
-)  # 1 second
+)
 
 
 def human_to_seconds(string):
