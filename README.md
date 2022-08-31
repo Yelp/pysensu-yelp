@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/Yelp/pysensu-yelp.svg?branch=master)](https://travis-ci.org/Yelp/pysensu-yelp)
 
 pysensu-yelp is a python library designed for interacting with the
-custom Yelp sensu-handlers. 
+custom Yelp sensu-handlers.
 
 This allows developers to get notified in the method of their choice,
 on arbitrary events that might happen in their code.
@@ -30,7 +30,7 @@ result_dict = {
     'runbook': 'http://lmgtfy.com/?q=my_cool_code',
     'status': 1,
     'output': 'CRITICAL: My code broke! Check the logs!',
-    'team': 'backend', 
+    'team': 'backend',
     'tip': 'This happens sometimes when you frobulate the flux restraint cannon',
     'page': True,
     'notification_email': None,

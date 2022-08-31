@@ -1,11 +1,11 @@
 #!/usr/bin/env python
-
 import argparse
 import json
+import re
 import socket
 import subprocess
-import re
 import sys
+from collections import OrderedDict
 
 """
 pysensu-yelp
@@ -112,27 +112,24 @@ A final invocation might look like this::
 
 """
 
-from collections import OrderedDict
-
 # Status codes for sensu checks
 # Code using this module can write pysensu_yelp.Status.OK, etc
 # for easy status codes
-Status = type('Enum', (), {
-    'OK':       0,
-    'WARNING':  1,
-    'CRITICAL': 2,
-    'UNKNOWN':  3
-})
+Status = type("Enum", (), {"OK": 0, "WARNING": 1, "CRITICAL": 2, "UNKNOWN": 3})
 
 # Copied from:
 # http://thomassileo.com/blog/2013/03/31/how-to-convert-seconds-to-human-readable-interval-back-and-forth-with-python/
-interval_dict = OrderedDict([("Y", 365*86400),  # 1 year
-                             ("M", 30*86400),   # 1 month
-                             ("W", 7*86400),    # 1 week
-                             ("D", 86400),      # 1 day
-                             ("h", 3600),       # 1 hour
-                             ("m", 60),         # 1 minute
-                             ("s", 1)])         # 1 second
+interval_dict = OrderedDict(
+    [
+        ("Y", 365 * 86400),  # 1 year
+        ("M", 30 * 86400),  # 1 month
+        ("W", 7 * 86400),  # 1 week
+        ("D", 86400),  # 1 day
+        ("h", 3600),  # 1 hour
+        ("m", 60),  # 1 minute
+        ("s", 1),
+    ]
+)  # 1 second
 
 
 def human_to_seconds(string):
@@ -147,7 +144,9 @@ def human_to_seconds(string):
     """
     interval_exc = f"Bad interval format for {string}"
 
-    interval_regex = re.compile("^(?P<value>[0-9]+)(?P<unit>[{0}])".format("".join(interval_dict.keys())))
+    interval_regex = re.compile(
+        "^(?P<value>[0-9]+)(?P<unit>[{}])".format("".join(interval_dict.keys()))
+    )
     seconds = 0
 
     if string is None:
@@ -158,10 +157,10 @@ def human_to_seconds(string):
             value, unit = int(match.group("value")), match.group("unit")
             if unit in interval_dict:
                 seconds += value * interval_dict[unit]
-                string = string[match.end():]
+                string = string[match.end() :]
             else:
-                raise Exception("'{0}' unit not present in {1}".format(
-                    unit, interval_dict.keys()))
+                interval_units = interval_dict.keys()
+                raise Exception(f"'{unit}' unit not present in {list(interval_units)}")
         else:
             raise Exception(interval_exc)
     return seconds
@@ -176,9 +175,9 @@ def send_event(
     page=False,
     tip=None,
     notification_email=None,
-    check_every='30s',
+    check_every="30s",
     realert_every=-1,
-    alert_after='0s',
+    alert_after="0s",
     dependencies=[],
     irc_channels=None,
     slack_channels=None,
@@ -188,7 +187,7 @@ def send_event(
     source=None,
     tags=[],
     ttl=None,
-    sensu_host='169.254.255.254',
+    sensu_host="169.254.255.254",
     sensu_port=3030,
     component=None,
     description=None,
@@ -333,80 +332,80 @@ def send_event(
     """
     if not (name and team):
         raise ValueError("Name and team must be present")
-    if not re.match(r'^[\w\.-]+$', name):
+    if not re.match(r"^[\w\.-]+$", name):
         raise ValueError("Name cannot contain special characters")
     if not runbook:
-        runbook = 'Please set a runbook!'
+        runbook = "Please set a runbook!"
     result_dict = {
-        'name': name,
-        'status': status,
-        'output': output,
-        'handler': 'default',
-        'team': team,
-        'runbook': runbook,
-        'tip': tip,
-        'notification_email': notification_email,
-        'interval': human_to_seconds(check_every),
-        'page': page,
-        'realert_every': int(realert_every),
-        'dependencies': dependencies,
-        'alert_after': human_to_seconds(alert_after),
-        'ticket': ticket,
-        'project': project,
-        'priority': priority,
-        'source': source,
-        'tags': tags,
-        'ttl': human_to_seconds(ttl),
-        'issuetype': issuetype,
+        "name": name,
+        "status": status,
+        "output": output,
+        "handler": "default",
+        "team": team,
+        "runbook": runbook,
+        "tip": tip,
+        "notification_email": notification_email,
+        "interval": human_to_seconds(check_every),
+        "page": page,
+        "realert_every": int(realert_every),
+        "dependencies": dependencies,
+        "alert_after": human_to_seconds(alert_after),
+        "ticket": ticket,
+        "project": project,
+        "priority": priority,
+        "source": source,
+        "tags": tags,
+        "ttl": human_to_seconds(ttl),
+        "issuetype": issuetype,
     }
     if irc_channels is not None:
-        result_dict['irc_channels'] = irc_channels
+        result_dict["irc_channels"] = irc_channels
 
     if slack_channels is not None:
-        result_dict['slack_channels'] = slack_channels
+        result_dict["slack_channels"] = slack_channels
 
     if component is not None:
-        result_dict['component'] = component
+        result_dict["component"] = component
 
     if description is not None:
-        result_dict['description'] = description
+        result_dict["description"] = description
 
     if cluster_name is not None:
-        result_dict['cluster_name'] = cluster_name
+        result_dict["cluster_name"] = cluster_name
 
     json_hash = json.dumps(result_dict)
 
     sock = socket.socket()
     try:
         sock.connect((sensu_host, sensu_port))
-        sock.sendall(json_hash.encode("utf-8") + b'\n')
+        sock.sendall(json_hash.encode("utf-8") + b"\n")
     finally:
         sock.close()
 
 
 def do_command_wrapper():
-    parser = argparse.ArgumentParser(description='Execute a nagios plugin and report the results to a local Sensu agent')
-    parser.add_argument('sensu_dict')
-    parser.add_argument('command', nargs=argparse.REMAINDER)
+    parser = argparse.ArgumentParser(
+        description="Execute a nagios plugin and report the results to a local Sensu agent"
+    )
+    parser.add_argument("sensu_dict")
+    parser.add_argument("command", nargs=argparse.REMAINDER)
     args = parser.parse_args()
 
     sensu_dict = json.loads(args.sensu_dict)
 
-    p = subprocess.Popen(args.command,
-                         stdout=subprocess.PIPE,
-                         stderr=subprocess.STDOUT)
+    p = subprocess.Popen(args.command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     output, _ = p.communicate()
     status = p.wait()
 
     if status > Status.WARNING:
         status = Status.WARNING
 
-    sensu_dict['status'] = status
-    sensu_dict['output'] = output
+    sensu_dict["status"] = status
+    sensu_dict["output"] = output
     send_event(**sensu_dict)
 
     return 0
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     sys.exit(do_command_wrapper())
