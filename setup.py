@@ -18,6 +18,5 @@ setup(
          'Programming Language :: Python :: 3.8',
     ],
     python_requires='>=3.6',
-    install_requires=['six'],
     license='Copyright Yelp 2014, all rights reserved',
 )

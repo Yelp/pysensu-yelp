@@ -2,7 +2,6 @@ import pysensu_yelp
 import mock
 import json
 import pytest
-import six
 
 
 class TestPySensuYelp:
@@ -54,7 +53,7 @@ class TestPySensuYelp:
     event_dict['irc_channels'] = test_irc_channels
     event_dict['slack_channels'] = test_slack_channels
     event_dict['cluster_name'] = test_cluster_name
-    event_hash = six.b(json.dumps(event_dict))
+    event_hash = json.dumps(event_dict).encode("utf-8")
 
     def test_human_to_seconds(self):
         assert pysensu_yelp.human_to_seconds('1s') == 1

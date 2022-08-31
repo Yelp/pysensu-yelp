@@ -7,8 +7,6 @@ import subprocess
 import re
 import sys
 
-import six
-
 """
 pysensu-yelp
 ============
@@ -381,7 +379,7 @@ def send_event(
     sock = socket.socket()
     try:
         sock.connect((sensu_host, sensu_port))
-        sock.sendall(six.b(json_hash) + b'\n')
+        sock.sendall(json_hash.encode("utf-8") + b'\n')
     finally:
         sock.close()
 
