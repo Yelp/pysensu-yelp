@@ -11,6 +11,12 @@ setup(
     author='Yelp Operations Team',
     author_email='operations@yelp.com',
     packages=find_packages(exclude=['tests']),
-    install_requires=['six'],
+    classifiers=[
+         'Programming Language :: Python :: 3',
+         'Programming Language :: Python :: 3.6',
+         'Programming Language :: Python :: 3.7',
+         'Programming Language :: Python :: 3.8',
+    ],
+    python_requires='>=3.6',
     license='Copyright Yelp 2014, all rights reserved',
 )

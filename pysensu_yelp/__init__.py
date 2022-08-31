@@ -7,8 +7,6 @@ import subprocess
 import re
 import sys
 
-import six
-
 """
 pysensu-yelp
 ============
@@ -147,7 +145,7 @@ def human_to_seconds(string):
     :rtype: int
     :return: The conversion in seconds of string.
     """
-    interval_exc = "Bad interval format for {0}".format(string)
+    interval_exc = f"Bad interval format for {string}"
 
     interval_regex = re.compile("^(?P<value>[0-9]+)(?P<unit>[{0}])".format("".join(interval_dict.keys())))
     seconds = 0
@@ -381,7 +379,7 @@ def send_event(
     sock = socket.socket()
     try:
         sock.connect((sensu_host, sensu_port))
-        sock.sendall(six.b(json_hash) + b'\n')
+        sock.sendall(json_hash.encode("utf-8") + b'\n')
     finally:
         sock.close()
 

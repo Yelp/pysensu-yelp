@@ -1,13 +1,14 @@
 language: python
 python:
-- 3.6
+- 3.7
 install:
 - pip install tox
 script:
 - tox
 env:
-- TOXENV=py27
 - TOXENV=py36
+- TOXENV=py37
+- TOXENV=py38
 
 deploy:
   provider: pypi
@@ -16,6 +17,6 @@ deploy:
     secure: bmL5K8CYiBWH1fICyvI7f6kKOcWYZ9rqfnsKkfE/V3ES5Gqqjml6sKFaPsJP/syK2DmmFDoifrPli8VN35jez2exgASdSY4pM8LRw9MbxUnjnyJa9DTNfju2Gm6i7gwalyCxpblvzcv4WqpSt9On8r5neu5PJSPcvIHxo8Q7RGk=
   on:
     tags: true
-    condition: $TOXENV == py27
+    condition: $TOXENV == py37
     distributions: sdist bdist_wheel
     repo: Yelp/pysensu-yelp
