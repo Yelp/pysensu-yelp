@@ -18,5 +18,8 @@ setup(
          'Programming Language :: Python :: 3.8',
     ],
     python_requires='>=3.6',
+    package_data={
+        'pysensu_yelp': ['py.typed'],
+    },
     license='Copyright Yelp 2014, all rights reserved',
 )
