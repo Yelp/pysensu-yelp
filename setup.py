@@ -4,7 +4,7 @@ from setuptools import setup
 
 setup(
     name='pysensu-yelp',
-    version='0.4.4',
+    version='1.0.0',
     provides=['pysensu_yelp'],
     description='Emits Yelp-flavored Sensu events to a Sensu Client',
     url='https://github.com/Yelp/pysensu-yelp',
