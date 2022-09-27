@@ -1,6 +1,7 @@
 ## pysensu-yelp
 
-[![Build Status](https://travis-ci.org/Yelp/pysensu-yelp.svg?branch=master)](https://travis-ci.org/Yelp/pysensu-yelp)
+[![Build Status](https://github.com/Yelp/pysensu-yelp/actions/workflows/build.yaml/badge.svg)](https://github.com/Yelp/pysensu-yelp/actions)
+[![Latest PyPI version](https://img.shields.io/pypi/v/pysensu-yelp.svg)](https://pypi.python.org/pypi/pysensu-yelp)
 
 pysensu-yelp is a python library designed for interacting with the
 custom Yelp sensu-handlers.
