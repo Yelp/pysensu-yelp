@@ -1,5 +1,14 @@
 # Change Log
 
+## [1.0.0](https://github.com/Yelp/pysensu-yelp/tree/v1.0.0) (2022-09-27)
+[Full Changelog](https://github.com/Yelp/pysensu-yelp/compare/v0.4.4...v1.0.0)
+
+**Merged pull requests:**
+
+- Add type annotations [\#34](https://github.com/Yelp/pysensu-yelp/pull/34) ([ymilki](https://github.com/ymilki))
+- Drop python 2 support, Add python 3.7/3.8 support [\#31](https://github.com/Yelp/pysensu-yelp/pull/31) ([ymilki](https://github.com/ymilki))
+- Add a custom issuetype optional parameter [\#30](https://github.com/Yelp/pysensu-yelp/pull/30) ([jvperrin](https://github.com/jvperrin))
+
 ## [0.4.4](https://github.com/Yelp/pysensu-yelp/tree/v0.4.4) (2020-04-13)
 [Full Changelog](https://github.com/Yelp/pysensu-yelp/compare/v0.4.3...v0.4.4)
 
