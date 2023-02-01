@@ -9,6 +9,7 @@ from collections import OrderedDict
 from enum import IntEnum
 from typing import List
 from typing import Optional
+from typing import Union
 
 """
 pysensu-yelp
@@ -178,7 +179,7 @@ def human_to_seconds(string: Optional[str]) -> Optional[int]:
 def send_event(
     name: str,
     runbook: str,
-    status: Status,
+    status: Union[Status, int],
     output: str,
     team: str,
     page: bool = False,
