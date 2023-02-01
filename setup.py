@@ -21,5 +21,5 @@ setup(
     package_data={
         'pysensu_yelp': ['py.typed'],
     },
-    license='Copyright Yelp 2014, all rights reserved',
+    license='Apache License 2.0',
 )
