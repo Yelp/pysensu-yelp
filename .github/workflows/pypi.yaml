@@ -7,11 +7,11 @@ on:
 
 jobs:
   publish:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-python@v4
+    - uses: actions/checkout@v7
+    - uses: actions/setup-python@v7
       with:
         python-version: 3.8
 
@@ -22,7 +22,7 @@ jobs:
       run: python setup.py sdist bdist_wheel
 
     - name: Publish distribution package to PyPI
-      uses: pypa/gh-action-pypi-publish@v1.5.1
+      uses: pypa/gh-action-pypi-publish@v1.14.2
       with:
         user: __token__
         password: ${{ secrets.PYPI_TOKEN }}
