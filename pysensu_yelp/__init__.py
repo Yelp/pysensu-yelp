@@ -7,9 +7,6 @@ import subprocess
 import sys
 from collections import OrderedDict
 from enum import IntEnum
-from typing import List
-from typing import Optional
-from typing import Union
 
 """
 pysensu-yelp
@@ -142,7 +139,7 @@ interval_dict = OrderedDict(
 )
 
 
-def human_to_seconds(string: Optional[str]) -> Optional[int]:
+def human_to_seconds(string: str | None) -> int | None:
     """Convert internal string like 1M, 1Y3M, 3W to seconds.
 
     :type string: str
@@ -179,30 +176,30 @@ def human_to_seconds(string: Optional[str]) -> Optional[int]:
 def send_event(
     name: str,
     runbook: str,
-    status: Union[Status, int],
+    status: Status | int,
     output: str,
     team: str,
     page: bool = False,
-    tip: Optional[str] = None,
-    notification_email: Optional[str] = None,
+    tip: str | None = None,
+    notification_email: str | None = None,
     check_every: str = "30s",
     realert_every: int = -1,
     alert_after: str = "0s",
-    dependencies: List[str] = [],
-    irc_channels: Optional[str] = None,
-    slack_channels: Optional[str] = None,
+    dependencies: list[str] = [],
+    irc_channels: str | None = None,
+    slack_channels: str | None = None,
     ticket: bool = False,
-    project: Optional[str] = None,
-    priority: Optional[str] = None,
-    source: Optional[str] = None,
-    tags: List[str] = [],
-    ttl: Optional[str] = None,
+    project: str | None = None,
+    priority: str | None = None,
+    source: str | None = None,
+    tags: list[str] = [],
+    ttl: str | None = None,
     sensu_host: str = "169.254.255.254",
     sensu_port: int = 3030,
-    component: Optional[str] = None,
-    description: Optional[str] = None,
-    cluster_name: Optional[str] = None,
-    issuetype: Optional[str] = None,
+    component: str | None = None,
+    description: str | None = None,
+    cluster_name: str | None = None,
+    issuetype: str | None = None,
 ) -> None:
     """Send a new event with the given information. Requires a name, runbook,
     status code, event output, and team but the other keys are kwargs and have

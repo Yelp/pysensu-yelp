@@ -13,12 +13,11 @@ setup(
     packages=find_packages(exclude=['tests']),
     classifiers=[
          'Programming Language :: Python :: 3',
-         'Programming Language :: Python :: 3.8',
          'Programming Language :: Python :: 3.10',
          'Programming Language :: Python :: 3.11',
          'Programming Language :: Python :: 3.12',
     ],
-    python_requires='>=3.8',
+    python_requires='>=3.10',
     package_data={
         'pysensu_yelp': ['py.typed'],
     },
