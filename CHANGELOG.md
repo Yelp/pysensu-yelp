@@ -1,5 +1,13 @@
 # Change Log
 
+## [2.0.0](https://github.com/Yelp/pysensu-yelp/tree/v2.0.0) (2026-09-18)
+[Full Changelog](https://github.com/Yelp/pysensu-yelp/compare/v1.0.0...v2.0.0)
+
+**Changes:**
+
+- Fix type annotations [\#44](https://github.com/Yelp/pysensu-yelp/pull/44) ([ymilki](https://github.com/ymilki))
+- Add support for Python 3.10, 3.11, and 3.12; drop support for Python 3.6, 3.7, and 3.8 [\#45](https://github.com/Yelp/pysensu-yelp/pull/45) ([ymilki](https://github.com/ymilki))
+
 ## [1.0.0](https://github.com/Yelp/pysensu-yelp/tree/v1.0.0) (2022-09-27)
 [Full Changelog](https://github.com/Yelp/pysensu-yelp/compare/v0.4.4...v1.0.0)
 
